@@ -70,7 +70,11 @@ public class App {
                 exitApp = true;
                 break;
             default:
-                exitApp = true;
+                if (menuOption.isEmpty()){
+                    exitApp = true;
+                } else {
+                    transactionScreen(in, false,loggedInAccount,destinationAccount);
+                }
         }
     }
 
