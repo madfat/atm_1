@@ -52,7 +52,8 @@ public class App {
         return valid;
     }
 
-    private static void transactionScreen(Scanner in, Boolean exitApp, Account loggedInAccount, Account destinationAccount) {
+    private static Boolean transactionScreen(Scanner in, Boolean exitApp, Account loggedInAccount, Account destinationAccount) {
+        Boolean cont = true;
         System.out.println("-------------------------------------------------------");
         for (String menu : getMenu()) {
             System.out.println(menu);
@@ -68,6 +69,7 @@ public class App {
                 break;
             case "3":
                 exitApp = true;
+                cont=false;
                 break;
             default:
                 if (menuOption.isEmpty()){
@@ -76,9 +78,11 @@ public class App {
                     transactionScreen(in, false,loggedInAccount,destinationAccount);
                 }
         }
+        return cont;
     }
 
     private static void fundTransferScreen(Scanner in, Boolean exitApp, Account loggedInAccount, Account destinationAccount) {
+        Boolean continueProcess = true;
         System.out.println("-------------------------------------------------------");
         System.out.print("Please enter destination account and press enter to continue \nor pres enter to go back to Transaction: ");
         String fundDestination = in.nextLine();
@@ -86,7 +90,7 @@ public class App {
             transactionScreen(in, exitApp, loggedInAccount, destinationAccount);
             return;
         }
-        System.out.print("Please enter transfer amount \nand press enter to continue \nor press enter to go back to Transaction: ");
+        System.out.print("\nPlease enter transfer amount \nand press enter to continue \nor press enter to go back to Transaction: ");
         String fundAmount = in.nextLine();
         if (fundDestination.isEmpty()) {
             transactionScreen(in, exitApp, loggedInAccount, destinationAccount);
@@ -94,15 +98,22 @@ public class App {
         }
         List<String> errors = validateAccount(loggedInAccount, fundDestination, fundAmount, destinationAccount);
         if (!errors.isEmpty()) {
+            System.out.print("\n");
             for (String error : errors) {
                 System.out.println(error);
             }
-            transactionScreen(in, false, loggedInAccount, destinationAccount);
+            continueProcess = transactionScreen(in, false, loggedInAccount, destinationAccount);
         }
+        if (!continueProcess){
+            return;
+        }
+        System.out.println("-------------------------------------------------------");
         String refNo = getRandomNumberToString();
         System.out.println(String.format("Reference Number: %s", refNo));
         System.out.println("Press enter to continue");
         in.nextLine();
+        System.out.println("-------------------------------------------------------");
+        System.out.println("Fund Transfer Screen 1");
         StringBuilder summary = new StringBuilder();
         summary.append("Transfer Confirmation \n");
         summary.append("Destination Account: " + fundDestination + "\n");
@@ -117,9 +128,12 @@ public class App {
         Double minToTransfer = Double.valueOf(1);
 
         List<String> errors = new ArrayList<>();
-        if (!fundAmount.matches("-?\\d+(\\.\\d+)?") ||
-                destinationNotAccountExist(fundDestination, destinationAccount)) {
+        if (destinationNotAccountExist(fundDestination, destinationAccount)) {
             errors.add("Invalid account");
+        }
+
+        if (!fundAmount.matches("-?\\d+(\\.\\d+)?")){
+            errors.add("Transfer amount is invalid");
         } else {
             if (Double.valueOf(fundAmount) > maxToTransfer) errors.add(String.format("Maximum amount to transfer is $%s",maxToTransfer));
             if (Double.valueOf(fundAmount) < minToTransfer) errors.add(String.format("Minimum amount to withdraw is $%s", minToTransfer));
