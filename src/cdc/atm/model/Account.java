@@ -1,3 +1,4 @@
+package src.cdc.atm.model;
 
 public class Account {
     private String name;
@@ -45,5 +46,15 @@ public class Account {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "name='" + name + '\'' +
+                ", pin='" + pin + '\'' +
+                ", balance=" + balance +
+                ", accountNumber='" + accountNumber + '\'' +
+                '}';
     }
 }
