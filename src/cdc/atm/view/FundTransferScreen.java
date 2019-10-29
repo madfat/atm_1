@@ -3,7 +3,6 @@ package src.cdc.atm.view;
 import src.cdc.atm.service.ValidationServiceImpl;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 public class FundTransferScreen extends CommonScreen implements CommonView {
@@ -11,6 +10,9 @@ public class FundTransferScreen extends CommonScreen implements CommonView {
     TransactionScreen transactionScreen = (TransactionScreen) CommonScreen.getInstance(TransactionScreen.class);
     ValidationServiceImpl validationService = ValidationServiceImpl.getInstance();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void show() {
         System.out.println("-------------------------------------------------------");

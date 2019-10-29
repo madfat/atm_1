@@ -1,6 +1,8 @@
 package src.cdc.atm.view;
 
 public interface CommonView {
-//    void show(Double transactionAmount);
+    /**
+     * Common method for showing view
+     */
     void show();
 }

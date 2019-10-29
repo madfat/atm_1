@@ -5,7 +5,6 @@ import src.cdc.atm.model.Account;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 import static src.cdc.atm.utils.Constant.*;
 
@@ -23,6 +22,10 @@ public class ValidationServiceImpl implements ValidationService {
     public static ValidationServiceImpl getInstance(){
         return validationServiceInstance;
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> login(String account, String pin) {
         List<String> errors = new ArrayList<>();
@@ -34,6 +37,9 @@ public class ValidationServiceImpl implements ValidationService {
         return errors;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Boolean validAmount(Account loggedInAccount, Double deductAmount) {
         Boolean valid = true;
@@ -50,6 +56,9 @@ public class ValidationServiceImpl implements ValidationService {
         return valid;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> validateAccount(String destinationAccountNo, String transactionAmount) {
         List<String> errors = new ArrayList<>();

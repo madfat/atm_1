@@ -18,6 +18,10 @@ public class WelcomeScreen implements CommonView {
     Scanner in = new Scanner(System.in);
     ValidationService validation = ValidationServiceImpl.getInstance();
     TransactionScreen transactionScreen = new TransactionScreen();
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void show() {
         System.out.println("-------------------------------------------------------");

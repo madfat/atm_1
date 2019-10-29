@@ -7,6 +7,10 @@ import java.util.Scanner;
 import static src.cdc.atm.utils.Constant.loginAccount;
 
 public class TransactionScreen extends CommonScreen implements CommonView {
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void show() {
         Boolean onTransactionScreen = true;

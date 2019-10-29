@@ -11,6 +11,9 @@ public class OtherWithdrawalScreen extends CommonScreen implements CommonView {
     ValidationServiceImpl validationService = ValidationServiceImpl.getInstance();
     TransactionServiceImpl transactionService = TransactionServiceImpl.getInstance();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void show() {
         System.out.println("-------------------------------------------------------");

@@ -7,6 +7,7 @@ import src.cdc.atm.view.SummaryScreen;
 import java.util.ArrayList;
 import java.util.List;
 
+import static src.cdc.atm.utils.Constant.destinationAccount;
 import static src.cdc.atm.utils.Constant.loginAccount;
 
 public class TransactionServiceImpl implements TransactionService {
@@ -24,11 +25,18 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionServiceInstance;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void calcTransferBalance(Account sourceAccount, Account destinationAccount, Double transactionAmount) {
-
+    public void calcTransferBalance(Account sourceAccount, Account destAccount, Double transactionAmount) {
+        loginAccount.setBalance(loginAccount.getBalance() - transactionAmount);
+        destinationAccount.setBalance(destAccount.getBalance() + transactionAmount);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void calcWithdrawalBalance(Account sourceAccout, Double transactionAmount) {
         List<String> errors = new ArrayList<>();

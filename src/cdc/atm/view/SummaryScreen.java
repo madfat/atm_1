@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import static src.cdc.atm.utils.Constant.destinationAccount;
 import static src.cdc.atm.utils.Constant.loginAccount;
 
 public class SummaryScreen extends CommonScreen {

@@ -17,6 +17,9 @@ public class AccountDaoImpl implements AccountDao {
         return accountDaoInstance;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Account> getAllAccount() {
         return Arrays.asList(
@@ -25,6 +28,9 @@ public class AccountDaoImpl implements AccountDao {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Account getLoginAccount(String account, String pin) {
         List<Account> accounts = getAllAccount();

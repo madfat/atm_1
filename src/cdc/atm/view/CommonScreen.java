@@ -26,6 +26,12 @@ public class CommonScreen {
 
     }
 
+    /**
+     * Method to get instance of class
+     *
+     * @param clazz
+     * @return instance of class
+     */
     public static CommonScreen getInstance(Class clazz) {
         try {
             switch (clazz.getSimpleName()){

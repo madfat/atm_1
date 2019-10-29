@@ -1,5 +1,8 @@
 package src.cdc.atm.view;
 
+import src.cdc.atm.service.TransactionService;
+import src.cdc.atm.service.TransactionServiceImpl;
+
 import java.util.Scanner;
 
 import static src.cdc.atm.utils.Constant.destinationAccount;
@@ -9,6 +12,8 @@ public class FundTransferConfirmationScreen extends CommonScreen {
     Scanner in = new Scanner(System.in);
 
     public void show(Double trxAmount, String refNo) {
+        TransactionService transactionService = TransactionServiceImpl.getInstance();
+        FundTransferReceiptScreen fundTransferReceiptScreen = new FundTransferReceiptScreen();
 
         Boolean transferConfirmationScreen = true;
         do {
@@ -25,11 +30,8 @@ public class FundTransferConfirmationScreen extends CommonScreen {
             String selectedTransferConfirmation = in.nextLine();
             switch (selectedTransferConfirmation) {
                 case "1":
-                    // confirm fund transfer
-                    loginAccount.setBalance(loginAccount.getBalance() - trxAmount);
-                    destinationAccount.setBalance(destinationAccount.getBalance() + trxAmount);
+                    transactionService.calcTransferBalance(loginAccount, destinationAccount, trxAmount);
 
-                    FundTransferReceiptScreen fundTransferReceiptScreen = new FundTransferReceiptScreen();
                     fundTransferReceiptScreen.show(String.valueOf(trxAmount), refNo);
                     transferConfirmationScreen=false;
                     break;
