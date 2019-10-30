@@ -14,4 +14,9 @@ public class Constant {
         loginAccount.setName(null);
         loginAccount.setPin(null);
     }
+
+    public final class TRX_TYPE {
+        public static final String TF = "Transfer";
+        public static final String WD = "Withdraw";
+    }
 }

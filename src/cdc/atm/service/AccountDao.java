@@ -1,7 +1,6 @@
 package src.cdc.atm.service;
 
 import src.cdc.atm.model.Account;
-import src.cdc.atm.model.Transaction;
 
 import java.util.List;
 
@@ -28,5 +27,7 @@ public interface AccountDao {
      * @param count
      */
     void generateRandomAccount(int count);
+
+    void writeToFile(List<String[]> datalines);
 
 }

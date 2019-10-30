@@ -4,7 +4,6 @@ import src.cdc.atm.model.Account;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -77,6 +76,10 @@ public class AccountDaoImpl implements AccountDao {
             datalines.add(new String[]{"John Doe "+i, String.format("1122%02d",i),String.valueOf(getRandomNumberInRange(15,20)*100),String.format("9988%02d",i)});
         }
 
+        writeToFile(datalines);
+    }
+
+    public void writeToFile(List<String[]> datalines) {
         File outputFile = new File(ACCOUNT_FILE_PATH);
         try (PrintWriter pw = new PrintWriter(outputFile)){
             pw.println(convertToCSV(HEADER));
