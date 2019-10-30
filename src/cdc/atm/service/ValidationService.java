@@ -24,9 +24,18 @@ public interface ValidationService {
 
     /**
      * Validate account prior transfer process
+     *
      * @param destinationAccountNo
      * @param transactionAmount
      * @return boolean of account validity
      */
     List<String> validateAccount(String destinationAccountNo, String transactionAmount);
+
+    /**
+     * Validate whether the passed account is exist or not
+     *
+     * @param accountNo
+     * @return Boolean
+     */
+    Boolean isAccountExist(String accountNo);
 }

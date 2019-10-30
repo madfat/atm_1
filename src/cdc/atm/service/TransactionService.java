@@ -21,4 +21,5 @@ public interface TransactionService {
      * @param transactionAmount
      */
     void calcWithdrawalBalance(Account sourceAccout, Double transactionAmount);
+    List<String[]> getTransactionList(String accountNumber);
 }

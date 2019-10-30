@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static src.cdc.atm.utils.Constant.destinationAccount;
 import static src.cdc.atm.utils.Constant.loginAccount;
@@ -17,9 +19,9 @@ import static src.cdc.atm.utils.Constant.loginAccount;
 public class TransactionServiceImpl implements TransactionService {
     private static TransactionServiceImpl transactionServiceInstance;
     TransactionDao transactionDao = TransactionDaoImpl.getInstance();
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:mm-ss");
-
     AccountDao accountDao = AccountDaoImpl.getInstance();
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:mm-ss");
 
     static {
         transactionServiceInstance = new TransactionServiceImpl();
@@ -93,6 +95,24 @@ public class TransactionServiceImpl implements TransactionService {
             transactionDao.save(constructTransaction(transactionAmount, Constant.TRX_TYPE.WD));
         }
         displayError(errors, transactionAmount);
+    }
+
+    @Override
+    public List<String[]> getTransactionList(String accountNumber) {
+        List<Transaction> transactions = transactionDao.getAllTransaction();
+        transactions = transactions.stream()
+                .filter(byAccountNo(accountNumber))
+                .collect(Collectors.toList());
+
+        List<String[]> lines = new ArrayList<>();
+        for (Transaction trx : transactions) {
+             lines.add(new String[]{trx.getTransactionDate(), trx.getType(), trx.getSourceAccount(), trx.getDestinationAccount(), String.valueOf(trx.getAmount())});
+        }
+        return lines;
+    }
+
+    private static Predicate<Transaction> byAccountNo(String accountNo){
+        return p -> p.getSourceAccount().equals(accountNo);
     }
 
     protected void displayError(List<String> errors, Double transactionAmount){

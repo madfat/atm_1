@@ -3,10 +3,12 @@ package src.cdc.atm.service;
 import src.cdc.atm.model.Transaction;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class TransactionDaoImpl implements TransactionDao {
+public class TransactionDaoImpl extends CommonService implements TransactionDao {
     private static final String TRANSACTION_FILE_PATH = "./data/transaction_data.csv";
     private static final String[] HEADER = new String[] {"transaction_date", "type", "source_acct", "destination_acct", "amount", "balance"};
 
@@ -34,6 +36,36 @@ public class TransactionDaoImpl implements TransactionDao {
         return "success";
     }
 
+    @Override
+    public List<Transaction> getAllTransaction() {
+        List<Transaction> transactions = new ArrayList<>();
+        try {
+            File file = new File(TRANSACTION_FILE_PATH);
+            InputStream input = new FileInputStream(file);
+            BufferedReader br = new BufferedReader(new InputStreamReader(input));
+
+            // skip the header of the csv
+            transactions = br.lines().skip(1).map(mapToItem).collect(Collectors.toList());
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return transactions;
+    }
+
+    private Function<String, Transaction> mapToItem = (line) -> {
+        String[] p = line.split(",");// a CSV has comma separated lines
+        Transaction transaction = new Transaction();
+        transaction.setTransactionDate(p[0]);//<-- this is the first column in the csv file
+        transaction.setType(p[1]);
+        transaction.setSourceAccount(p[2]);
+        transaction.setDestinationAccount(p[3]);
+        transaction.setAmount(Double.valueOf(p[4]));
+        return transaction;
+    };
+
     private Boolean isHeaderExist() {
         try (BufferedReader br = new BufferedReader(new FileReader(TRANSACTION_FILE_PATH))) {
             if (br.readLine() == null) return false;
@@ -47,21 +79,5 @@ public class TransactionDaoImpl implements TransactionDao {
 
     private String[] mapToLine(Transaction trx) {
         return new String[]{trx.getTransactionDate(), trx.getType(), trx.getSourceAccount(), trx.getDestinationAccount(), String.valueOf(trx.getAmount()), String.valueOf(trx.getBalance())};
-    }
-
-    private String convertToCSV(String[] data) {
-        return Stream.of(data)
-                .map(this::escapeSpecialCharacters)
-                .collect(Collectors.joining(","));
-    }
-
-    private String escapeSpecialCharacters(String data) {
-        if (data == null) return null;
-        String escapedData = data.replaceAll("\\R", " ");
-        if (data.contains(",") || data.contains("\"") || data.contains("'")) {
-            data = data.replace("\"", "\"\"");
-            escapedData = "\"" + data + "\"";
-        }
-        return escapedData;
     }
 }

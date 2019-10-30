@@ -42,6 +42,8 @@ public class FundTransferConfirmationScreen extends CommonScreen {
                 default:
                     if (!selectedTransferConfirmation.isEmpty()) {
                         System.out.println("--> Invalid option");
+                    } else {
+                        transferConfirmationScreen=false;
                     }
                     // cancel fund transfer
             }

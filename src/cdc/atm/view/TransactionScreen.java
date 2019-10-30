@@ -20,7 +20,7 @@ public class TransactionScreen extends CommonScreen implements CommonView {
             for (String menu : getTransactionMenu()) {
                 System.out.println(menu);
             }
-            System.out.print("Please choose option[3]: ");
+            System.out.print("Please choose option[4]: ");
             String menuOption = in.nextLine();
             switch (menuOption){
                 case "1":
@@ -32,6 +32,10 @@ public class TransactionScreen extends CommonScreen implements CommonView {
                     fundTransferScreen.show();
                     break;
                 case "3":
+                    ReviewTransactionScreen reviewTransactionScreen = (ReviewTransactionScreen) CommonScreen.getInstance(ReviewTransactionScreen.class);
+                    reviewTransactionScreen.show();
+                    break;
+                case "4":
                     onTransactionScreen = false;
                     break;
                 default:
@@ -46,6 +50,6 @@ public class TransactionScreen extends CommonScreen implements CommonView {
     }
 
     private List<String> getTransactionMenu() {
-        return Arrays.asList("1. Withdraw", "2. Fund Transfer", "3. Exit");
+        return Arrays.asList("1. Withdraw", "2. Fund Transfer", "3. Review Transaction", "4. Exit");
     }
 }

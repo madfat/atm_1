@@ -10,6 +10,7 @@ import static src.cdc.atm.utils.Constant.*;
 
 public class ValidationServiceImpl implements ValidationService {
     private static ValidationServiceImpl validationServiceInstance;
+    private static AccountDao accountDao = AccountDaoImpl.getInstance();
 
     static {
         validationServiceInstance = new ValidationServiceImpl();
@@ -78,13 +79,13 @@ public class ValidationServiceImpl implements ValidationService {
         return errors;
     }
 
+    @Override
+    public Boolean isAccountExist(String accountNo) {
+        return accountDao.findAccountByAccountNo(accountNo) != null ? false : true;
+    }
+
     private boolean destinationNotAccountExist(String destinationAccountNo) {
-        AccountDao accountDao = AccountDaoImpl.getInstance();
-        List<Account> accounts = accountDao.getAllAccount();
-        Account account = accounts.stream()
-                .filter(acct -> destinationAccountNo.equalsIgnoreCase(acct.getAccountNumber()))
-                .findAny()
-                .orElse(null);
+        Account account = accountDao.findAccountByAccountNo(destinationAccountNo);
         if (!Objects.isNull(account)) {
             destinationAccount.setBalance(account.getBalance());
             destinationAccount.setName(account.getName());

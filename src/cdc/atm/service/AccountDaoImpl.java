@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class AccountDaoImpl implements AccountDao {
+public class AccountDaoImpl extends CommonService implements AccountDao {
     private static final String ACCOUNT_FILE_PATH = "./data/account_data.csv";
     private static final String[] HEADER = new String[]{"name","pin", "balance", "account_no"};
 
@@ -91,19 +90,14 @@ public class AccountDaoImpl implements AccountDao {
         }
     }
 
-    private String convertToCSV(String[] data) {
-        return Stream.of(data)
-                .map(this::escapeSpecialCharacters)
-                .collect(Collectors.joining(","));
-    }
-
-    private String escapeSpecialCharacters(String data) {
-        String escapedData = data.replaceAll("\\R", " ");
-        if (data.contains(",") || data.contains("\"") || data.contains("'")) {
-            data = data.replace("\"", "\"\"");
-            escapedData = "\"" + data + "\"";
-        }
-        return escapedData;
+    @Override
+    public Account findAccountByAccountNo(String accountNo) {
+        AccountDao accountDao = AccountDaoImpl.getInstance();
+        List<Account> accounts = accountDao.getAllAccount();
+        return accounts.stream()
+                .filter(acct -> accountNo.equalsIgnoreCase(acct.getAccountNumber()))
+                .findAny()
+                .orElse(null);
     }
 
     private int getRandomNumberInRange(int min, int max){

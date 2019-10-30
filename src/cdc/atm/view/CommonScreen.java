@@ -1,6 +1,8 @@
 package src.cdc.atm.view;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CommonScreen {
     private static WithdrawalScreen withdrawalScreenIntance;
@@ -12,6 +14,7 @@ public class CommonScreen {
     private static FundTransferGenerateRefNoScreen fundTransferGenerateRefNoScreenInstance;
     private static FundTransferConfirmationScreen fundTransferConfirmationScreenInstance;
     private static FundTransferReceiptScreen fundTransferReceiptScreenInstance;
+    private static ReviewTransactionScreen reviewTransactionScreenInstance;
 
     protected void displayError(List<String> errors, Double transactionAmount){
         SummaryScreen summaryScreen = (SummaryScreen) getInstance(SummaryScreen.class);
@@ -80,6 +83,11 @@ public class CommonScreen {
                         fundTransferReceiptScreenInstance = (FundTransferReceiptScreen) clazz.newInstance();
                     }
                     return fundTransferReceiptScreenInstance;
+                case "ReviewTransactionScreen":
+                    if (reviewTransactionScreenInstance == null) {
+                        reviewTransactionScreenInstance = (ReviewTransactionScreen) clazz.newInstance();
+                    }
+                    return reviewTransactionScreenInstance;
                 default:
                         //
                 }
