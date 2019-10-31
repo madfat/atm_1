@@ -15,13 +15,12 @@ import java.util.stream.Collectors;
 
 import static src.cdc.atm.utils.Constant.destinationAccount;
 import static src.cdc.atm.utils.Constant.loginAccount;
+import static src.cdc.atm.utils.Constant.sdf;
 
 public class TransactionServiceImpl implements TransactionService {
     private static TransactionServiceImpl transactionServiceInstance;
     TransactionDao transactionDao = TransactionDaoImpl.getInstance();
     AccountDao accountDao = AccountDaoImpl.getInstance();
-
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:mm-ss");
 
     static {
         transactionServiceInstance = new TransactionServiceImpl();
@@ -115,7 +114,10 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private static Predicate<Transaction> byAccountNo(String accountNo){
-        return p -> p.getSourceAccount().equals(accountNo);
+        if (loginAccount.getAccountNumber().equals(accountNo)) {
+            return p -> p.getSourceAccount().equals(accountNo);
+        }
+        return p -> p.getDestinationAccount().equals(accountNo) && p.getType().equals(Constant.TRX_TYPE.TF);
     }
 
     protected void displayError(List<String> errors, Double transactionAmount){

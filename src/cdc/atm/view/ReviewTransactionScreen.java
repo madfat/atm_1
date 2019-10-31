@@ -1,10 +1,7 @@
 package src.cdc.atm.view;
 
 import src.cdc.atm.model.Transaction;
-import src.cdc.atm.service.TransactionService;
-import src.cdc.atm.service.TransactionServiceImpl;
-import src.cdc.atm.service.ValidationService;
-import src.cdc.atm.service.ValidationServiceImpl;
+import src.cdc.atm.service.*;
 
 import java.util.List;
 import java.util.Scanner;
@@ -17,6 +14,8 @@ public class ReviewTransactionScreen extends CommonScreen implements CommonView 
     Scanner in = new Scanner(System.in);
     TransactionService transactionService = TransactionServiceImpl.getInstance();
     ValidationService validationService = ValidationServiceImpl.getInstance();
+    AccountDao accountDao = AccountDaoImpl.getInstance();
+
     @Override
     public void show() {
         System.out.println("-------------------------------------------------------");
@@ -32,13 +31,18 @@ public class ReviewTransactionScreen extends CommonScreen implements CommonView 
             } else {
                 System.out.println("-------------------------------------------------------");
                 System.out.println("Account No: " + accountNo);
-                System.out.println("Total transaction: " + transactionList.size() + " records\n");
+                System.out.println("Total transaction: " + transactionList.size() + " records");
+                System.out.println("Current balance: " + getCurrentBalance(accountNo) + "\n");
                 System.out.println("transaction_date,type,source_acct,destination_acct,amount");
                 for (String[] strings : transactionList) {
                     System.out.println(convertToCSV(strings));
                 }
             }
         }
+    }
+
+    private String getCurrentBalance(String accountNo) {
+        return String.valueOf(accountDao.findAccountByAccountNo(accountNo).getBalance());
     }
 
     private String convertToCSV(String[] data) {
