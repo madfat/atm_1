@@ -45,8 +45,7 @@ public class FundTransferConfirmationScreen extends CommonScreen {
                     } else {
                         transferConfirmationScreen=false;
                     }
-                    // cancel fund transfer
             }
-        }while (transferConfirmationScreen);
+        } while (transferConfirmationScreen);
     }
  }

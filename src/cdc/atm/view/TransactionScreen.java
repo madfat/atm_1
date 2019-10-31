@@ -45,7 +45,6 @@ public class TransactionScreen extends CommonScreen implements CommonView {
                         System.out.println("--> Invalid option");
                     }
             }
-//            return cont;
         } while (onTransactionScreen);
     }
 

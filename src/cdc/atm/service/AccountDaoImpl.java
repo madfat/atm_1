@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static src.cdc.atm.utils.Constant.ACCOUNT_FILE_PATH;
+
 public class AccountDaoImpl extends CommonService implements AccountDao {
-    private static final String ACCOUNT_FILE_PATH = "./data/account_data.csv";
     private static final String[] HEADER = new String[]{"name","pin", "balance", "account_no"};
 
     private static AccountDaoImpl accountDaoInstance;

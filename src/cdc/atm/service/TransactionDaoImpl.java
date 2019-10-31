@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static src.cdc.atm.utils.Constant.TRANSACTION_FILE_PATH;
+import static src.cdc.atm.utils.Constant.TRANSACTION_HEADER;
+
 public class TransactionDaoImpl extends CommonService implements TransactionDao {
-    private static final String TRANSACTION_FILE_PATH = "./data/transaction_data.csv";
-    private static final String[] HEADER = new String[] {"transaction_date", "type", "source_acct", "destination_acct", "amount", "balance"};
 
     private static TransactionDaoImpl transactionDaoInstance;
     static {
@@ -26,7 +27,7 @@ public class TransactionDaoImpl extends CommonService implements TransactionDao 
         try (FileWriter fw = new FileWriter(TRANSACTION_FILE_PATH, true)) {
             PrintWriter pw = new PrintWriter(fw);
             if (!isHeaderExist()) {
-                pw.println(convertToCSV(HEADER));
+                pw.println(convertToCSV(TRANSACTION_HEADER));
             }
             pw.println(convertToCSV(mapToLine(transaction)));
             pw.close();

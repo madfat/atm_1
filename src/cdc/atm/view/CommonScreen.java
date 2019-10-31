@@ -1,8 +1,6 @@
 package src.cdc.atm.view;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CommonScreen {
     private static WithdrawalScreen withdrawalScreenIntance;

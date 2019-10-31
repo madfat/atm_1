@@ -97,6 +97,9 @@ public class TransactionServiceImpl implements TransactionService {
         displayError(errors, transactionAmount);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String[]> getTransactionList(String accountNumber) {
         List<Transaction> transactions = transactionDao.getAllTransaction();
@@ -124,6 +127,5 @@ public class TransactionServiceImpl implements TransactionService {
         for (String error : errors) {
             System.out.println(error);
         }
-        summaryScreen.show(transactionAmount, errors);
     }
 }

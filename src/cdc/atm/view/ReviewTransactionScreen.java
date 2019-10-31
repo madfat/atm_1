@@ -11,6 +11,8 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static src.cdc.atm.utils.Constant.TRANSACTION_HEADER;
+
 public class ReviewTransactionScreen extends CommonScreen implements CommonView {
     Scanner in = new Scanner(System.in);
     TransactionService transactionService = TransactionServiceImpl.getInstance();
@@ -31,6 +33,7 @@ public class ReviewTransactionScreen extends CommonScreen implements CommonView 
                 System.out.println("-------------------------------------------------------");
                 System.out.println("Account No: " + accountNo);
                 System.out.println("Total transaction: " + transactionList.size() + " records\n");
+                System.out.println("transaction_date,type,source_acct,destination_acct,amount");
                 for (String[] strings : transactionList) {
                     System.out.println(convertToCSV(strings));
                 }
