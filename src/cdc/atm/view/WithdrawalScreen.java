@@ -13,7 +13,7 @@ public class WithdrawalScreen extends CommonScreen {
     public void show(Account loggedInAccount){
         TransactionService service = TransactionServiceImpl.getInstance();
         OtherWithdrawalScreen otherWithdralScreen = new OtherWithdrawalScreen();
-        SummaryScreen summaryScreen = (SummaryScreen) CommonScreen.getInstance(SummaryScreen.class);
+
         Boolean onWithdrawalScreen = true;
         Scanner in = new Scanner(System.in);
 
@@ -28,24 +28,24 @@ public class WithdrawalScreen extends CommonScreen {
             Double deductAmount = Double.valueOf(0);
             switch (selectedWithdrawMenu) {
                 case "1":
+                    // withdraw by 10
                     deductAmount = Double.valueOf(10);
                     service.calcWithdrawalBalance(loggedInAccount, deductAmount);
-                    summaryScreen.show(deductAmount, null);
                     break;
                 case "2":
+                    // withdraw by 50
                     deductAmount = Double.valueOf(50);
                     service.calcWithdrawalBalance(loggedInAccount, deductAmount);
-                    summaryScreen.show(deductAmount, null);
                     break;
                 case "3":
+                    // withdraw by 100
                     deductAmount = Double.valueOf(100);
                     service.calcWithdrawalBalance(loggedInAccount, deductAmount);
-                    summaryScreen.show(deductAmount, null);
-                    summaryScreen.show(deductAmount, null);
                     break;
                 case "4":
                     // display other withdraw screen
                     otherWithdralScreen.show();
+                    break;
                 case "5":
                     // back to transaction screen
                     onWithdrawalScreen = false;

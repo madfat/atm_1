@@ -20,4 +20,26 @@ public interface AccountDao {
      * @return Account detail
      */
     Account getLoginAccount(String account, String pin);
+
+    /**
+     * generate initial accounts randomly and write the generated account to csv file
+     *
+     * @param count
+     */
+    void generateRandomAccount(int count);
+
+    /**
+     * Write to csv file
+     * @param datalines array of string that would be written in a line
+     */
+    void writeToFile(List<String[]> datalines);
+
+    /**
+     * Find account by account no
+     *
+     * @param accountNo
+     * @return will return account object
+     */
+    Account findAccountByAccountNo(String accountNo);
+
 }

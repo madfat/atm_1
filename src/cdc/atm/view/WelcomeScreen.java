@@ -6,7 +6,6 @@ import src.cdc.atm.service.AccountDaoImpl;
 import src.cdc.atm.service.ValidationService;
 import src.cdc.atm.service.ValidationServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -29,7 +28,8 @@ public class WelcomeScreen implements CommonView {
         String account = in.nextLine();
         System.out.print("Enter PIN: ");
         String pin = in.nextLine();
-        List<String> errors = new ArrayList<>();
+
+        List<String> errors;
         errors = validation.login(account,pin);
         Boolean valid = true;
         if (!errors.isEmpty()) {
