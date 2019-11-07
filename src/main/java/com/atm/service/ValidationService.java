@@ -1,7 +1,10 @@
 package com.atm.service;
 
+import com.atm.exception.AtmValidationException;
 import com.atm.model.Account;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 
 public interface ValidationService {
@@ -12,30 +15,7 @@ public interface ValidationService {
      * @param pin
      * @return List of error if errors occur
      */
-    List<String> login(String account, String pin);
-
-    /**
-     * Validate account prior withdrawal process
-     * @param loginAccount
-     * @param transactionAmount
-     * @return boolean of account validity
-     */
-    Boolean validAmount(Account loginAccount, Double transactionAmount);
-
-    /**
-     * Validate account prior transfer process
-     *
-     * @param destinationAccountNo
-     * @param transactionAmount
-     * @return boolean of account validity
-     */
-    List<String> validateAccount(String destinationAccountNo, String transactionAmount);
-
-    /**
-     * Validate whether the passed account is exist or not
-     *
-     * @param accountNo
-     * @return Boolean
-     */
-    Boolean isAccountExist(String accountNo);
+    void login(String account, String pin) throws ValidationException;
+    void transferValidation(String srcAccountNo, String dstAccountNo, Double trxAmount) throws ValidationException;
+    void withdrawalValidation(String srcAccountNo, Double trxAmount);
 }

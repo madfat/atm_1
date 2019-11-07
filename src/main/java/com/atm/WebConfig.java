@@ -1,6 +1,5 @@
 package com.atm;
 
-import org.ocpsoft.rewrite.servlet.DispatcherType;
 import org.ocpsoft.rewrite.servlet.RewriteFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -8,10 +7,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.faces.webapp.FacesServlet;
+import javax.servlet.DispatcherType;
 import java.util.EnumSet;
 
 @Configuration
 public class WebConfig {
+
     @Bean
     public ServletRegistrationBean servletRegistrationBean() {
         FacesServlet servlet = new FacesServlet();

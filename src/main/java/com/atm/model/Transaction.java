@@ -1,12 +1,27 @@
 package com.atm.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+@Entity
+@Table(name = "transaction")
 public class Transaction {
-    String transactionDate;
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    String transactionId;
     String type;
+    @Size(min = 6, max = 6, message = "Must be 6 characters")
     String sourceAccount;
     String destinationAccount;
     Double amount;
     Double balance;
+    String transactionDate;
 
     public Transaction(String transactionDate, String type, String sourceAccount, String destinationAccount, Double amount, Double balance) {
         this.transactionDate = transactionDate;
@@ -18,6 +33,14 @@ public class Transaction {
     }
 
     public Transaction() {
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
 
     public String getTransactionDate() {

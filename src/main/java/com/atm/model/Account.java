@@ -1,19 +1,50 @@
 package com.atm.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+
+@Entity
+@Table(name = "account")
 public class Account {
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String accountId;
     private String name;
+    @Size(min = 6, max = 6, message = "Must be 6 characters")
+    private String accountNo;
+    @Size(min = 6, max = 6, message = "Must be 6 characters")
     private String pin;
     private double balance;
-    private String accountNumber;
+    private Boolean status;
 
-    public Account(String name, String pin, double balance, String accountNumber) {
+    public Account(String name, @Size(min = 6, max = 6, message = "Must be 6 characters") String accountNo, @Size(min = 6, max = 6, message = "Must be 6 characters") String pin, double balance, Boolean status) {
         this.name = name;
+        this.accountNo = accountNo;
         this.pin = pin;
         this.balance = balance;
-        this.accountNumber = accountNumber;
+        this.status = status;
     }
 
     public Account() {
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     public String getName() {
@@ -40,12 +71,12 @@ public class Account {
         this.balance = balance;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public String getAccountNo() {
+        return accountNo;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
     }
 
     @Override
@@ -54,7 +85,7 @@ public class Account {
                 "name='" + name + '\'' +
                 ", pin='" + pin + '\'' +
                 ", balance=" + balance +
-                ", accountNumber='" + accountNumber + '\'' +
+                ", accountNo='" + accountNo + '\'' +
                 '}';
     }
 }
