@@ -30,5 +30,10 @@ CREATE TABLE transaction
   transaction_date character varying(255),
   type character varying(255),
   CONSTRAINT transaction_pkey PRIMARY KEY (transaction_id)
-)
+);
 
+create table product (
+  id identity not null,
+  name varchar (255) not null,
+  price double not null
+);

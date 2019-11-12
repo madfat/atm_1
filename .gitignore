@@ -50,6 +50,7 @@ cmake-build-*/
 # IntelliJ
 out/
 target/
+src/main/webapp/WEB-INF/classes/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -124,3 +125,4 @@ _ReSharper*/
 .vs/
 #Nuget packages folder
 packages/
+

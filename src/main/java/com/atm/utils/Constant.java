@@ -16,7 +16,7 @@ public class Constant {
 
     public static void resetLoginAccount() {
         loginAccount.setBalance(0.0);
-        loginAccount.setAccountNumber(null);
+        loginAccount.setAccountNo(null);
         loginAccount.setName(null);
         loginAccount.setPin(null);
     }
