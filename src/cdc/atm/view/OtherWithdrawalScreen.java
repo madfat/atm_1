@@ -8,8 +8,7 @@ import java.util.Scanner;
 import static src.cdc.atm.utils.Constant.loginAccount;
 
 public class OtherWithdrawalScreen extends CommonScreen implements CommonView {
-    ValidationServiceImpl validationService = ValidationServiceImpl.getInstance();
-    TransactionServiceImpl transactionService = TransactionServiceImpl.getInstance();
+    private TransactionServiceImpl transactionService = TransactionServiceImpl.getInstance();
 
     /**
      * {@inheritDoc}

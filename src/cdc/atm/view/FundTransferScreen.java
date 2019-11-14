@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FundTransferScreen extends CommonScreen implements CommonView {
-    Scanner in = new Scanner(System.in);
+    private Scanner in = new Scanner(System.in);
     TransactionScreen transactionScreen = (TransactionScreen) CommonScreen.getInstance(TransactionScreen.class);
     ValidationServiceImpl validationService = ValidationServiceImpl.getInstance();
 

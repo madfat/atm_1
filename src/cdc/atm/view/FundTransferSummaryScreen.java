@@ -4,8 +4,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class FundTransferSummaryScreen extends CommonScreen {
-    Scanner in = new Scanner(System.in);
-
     public void show(String trxAmount) {
         String refNo = getRandomNumberToString();
         FundTransferGenerateRefNoScreen fundTransferGenerateRefNoScreen = (FundTransferGenerateRefNoScreen) CommonScreen.getInstance(FundTransferGenerateRefNoScreen.class);
