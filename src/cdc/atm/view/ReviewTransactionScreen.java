@@ -1,6 +1,5 @@
 package src.cdc.atm.view;
 
-import src.cdc.atm.model.Transaction;
 import src.cdc.atm.service.*;
 
 import java.util.List;

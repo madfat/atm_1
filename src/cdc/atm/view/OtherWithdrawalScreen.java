@@ -1,7 +1,6 @@
 package src.cdc.atm.view;
 
 import src.cdc.atm.service.TransactionServiceImpl;
-import src.cdc.atm.service.ValidationServiceImpl;
 
 import java.util.Scanner;
 

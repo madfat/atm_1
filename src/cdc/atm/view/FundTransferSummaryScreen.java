@@ -1,7 +1,6 @@
 package src.cdc.atm.view;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public class FundTransferSummaryScreen extends CommonScreen {
     public void show(String trxAmount) {

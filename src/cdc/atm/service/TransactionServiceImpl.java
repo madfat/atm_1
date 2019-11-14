@@ -6,15 +6,15 @@ import src.cdc.atm.utils.Constant;
 import src.cdc.atm.view.CommonScreen;
 import src.cdc.atm.view.SummaryScreen;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static src.cdc.atm.utils.Constant.destinationAccount;
 import static src.cdc.atm.utils.Constant.loginAccount;
-import static src.cdc.atm.utils.Constant.sdf;
+import static src.cdc.atm.utils.Constant.dft;
 
 public class TransactionServiceImpl implements TransactionService {
     private static TransactionServiceImpl transactionServiceInstance;
@@ -47,7 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private Transaction constructTransaction(Double transactionAmount, String type) {
-        return new Transaction(sdf.format(new Date()), type, loginAccount.getAccountNumber(), getDestinationAccount(type), transactionAmount, loginAccount.getBalance());
+        return new Transaction(dft.format(LocalDateTime.now()), type, loginAccount.getAccountNumber(), getDestinationAccount(type), transactionAmount, loginAccount.getBalance());
     }
 
     private String getDestinationAccount(String type) {

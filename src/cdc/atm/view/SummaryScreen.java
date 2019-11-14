@@ -1,9 +1,7 @@
 package src.cdc.atm.view;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 
 import static src.cdc.atm.utils.Constant.loginAccount;
 
