@@ -10,6 +10,6 @@ This repository was created in order to implement the requirement on https://git
 - Checkout the tagged code: ```git checkout stage2```
 - Compile all the *.java resources: ```javac src/cdc/atm/*.java```
 - Create Manifest and jar file: 
-  - ```Main-Class: src.cdc.atm.Atm >manifest.txt```
+  - ```echo Main-Class: src.cdc.atm.Atm >manifest.txt```
   - ```jar cvfm Atm.jar manifest.txt src/cdc/atm/*.class src/cdc/atm/**/*.class```
 - run the application: ```java -jar Atm.jar```
