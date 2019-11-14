@@ -8,7 +8,7 @@ This repository was created in order to implement the requirement on https://git
 - Clone the repository: ```git clone https://github.com/madfat/atm_1.git atm_simulation```
 - Get inside the project directory: ```cd atm_simulation```
 - Checkout the tagged code: ```git checkout stage2```
-- Compile all the *.java resources: ```java src/cdc/atm/*.java```
+- Compile all the *.java resources: ```javac src/cdc/atm/*.java```
 - Create Manifest and jar file: 
   - ```Main-Class: src.cdc.atm.Atm >manifest.txt```
   - ```jar cvfm Atm.jar manifest.txt src/cdc/atm/*.class src/cdc/atm/**/*.class```
