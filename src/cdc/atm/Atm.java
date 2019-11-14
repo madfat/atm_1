@@ -4,10 +4,16 @@ import src.cdc.atm.service.AccountDao;
 import src.cdc.atm.service.AccountDaoImpl;
 import src.cdc.atm.view.WelcomeScreen;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import static src.cdc.atm.utils.Constant.ACCOUNT_FILE_PATH;
+import static src.cdc.atm.utils.Constant.TRANSACTION_FILE_PATH;
 
 public class Atm {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        // reset the content of transaction file
+        new FileWriter(TRANSACTION_FILE_PATH, false).close();
         // read account file path from argument
         if (args.length > 0){
             ACCOUNT_FILE_PATH = args [0];
