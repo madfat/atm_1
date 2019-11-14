@@ -6,7 +6,6 @@ import src.cdc.atm.utils.Constant;
 import src.cdc.atm.view.CommonScreen;
 import src.cdc.atm.view.SummaryScreen;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,8 +18,8 @@ import static src.cdc.atm.utils.Constant.sdf;
 
 public class TransactionServiceImpl implements TransactionService {
     private static TransactionServiceImpl transactionServiceInstance;
-    TransactionDao transactionDao = TransactionDaoImpl.getInstance();
-    AccountDao accountDao = AccountDaoImpl.getInstance();
+    private TransactionDao transactionDao = TransactionDaoImpl.getInstance();
+    private AccountDao accountDao = AccountDaoImpl.getInstance();
 
     static {
         transactionServiceInstance = new TransactionServiceImpl();

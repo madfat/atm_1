@@ -1,12 +1,12 @@
 package src.cdc.atm.model;
 
 public class Transaction {
-    String transactionDate;
-    String type;
-    String sourceAccount;
-    String destinationAccount;
-    Double amount;
-    Double balance;
+    private String transactionDate;
+    private String type;
+    private String sourceAccount;
+    private String destinationAccount;
+    private Double amount;
+    private Double balance;
 
     public Transaction(String transactionDate, String type, String sourceAccount, String destinationAccount, Double amount, Double balance) {
         this.transactionDate = transactionDate;

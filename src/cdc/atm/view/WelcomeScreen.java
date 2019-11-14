@@ -14,9 +14,9 @@ import static src.cdc.atm.utils.Constant.loginAccount;
 import static src.cdc.atm.utils.Constant.resetLoginAccount;
 
 public class WelcomeScreen implements CommonView {
-    Scanner in = new Scanner(System.in);
-    ValidationService validation = ValidationServiceImpl.getInstance();
-    TransactionScreen transactionScreen = new TransactionScreen();
+    private Scanner in = new Scanner(System.in);
+    private ValidationService validation = ValidationServiceImpl.getInstance();
+    private TransactionScreen transactionScreen = new TransactionScreen();
 
     /**
      * {@inheritDoc}
