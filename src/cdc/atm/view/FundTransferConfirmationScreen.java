@@ -9,7 +9,7 @@ import static src.cdc.atm.utils.Constant.destinationAccount;
 import static src.cdc.atm.utils.Constant.loginAccount;
 
 public class FundTransferConfirmationScreen extends CommonScreen {
-    Scanner in = new Scanner(System.in);
+    private Scanner in = new Scanner(System.in);
 
     public void show(Double trxAmount, String refNo) {
         TransactionService transactionService = TransactionServiceImpl.getInstance();

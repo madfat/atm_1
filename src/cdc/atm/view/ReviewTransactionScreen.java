@@ -1,6 +1,5 @@
 package src.cdc.atm.view;
 
-import src.cdc.atm.model.Transaction;
 import src.cdc.atm.service.*;
 
 import java.util.List;
@@ -11,10 +10,10 @@ import java.util.stream.Stream;
 import static src.cdc.atm.utils.Constant.TRANSACTION_HEADER;
 
 public class ReviewTransactionScreen extends CommonScreen implements CommonView {
-    Scanner in = new Scanner(System.in);
-    TransactionService transactionService = TransactionServiceImpl.getInstance();
-    ValidationService validationService = ValidationServiceImpl.getInstance();
-    AccountDao accountDao = AccountDaoImpl.getInstance();
+    private Scanner in = new Scanner(System.in);
+    private TransactionService transactionService = TransactionServiceImpl.getInstance();
+    private ValidationService validationService = ValidationServiceImpl.getInstance();
+    private AccountDao accountDao = AccountDaoImpl.getInstance();
 
     @Override
     public void show() {
