@@ -14,25 +14,33 @@ public class Transaction {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    String transactionId;
-    String type;
+    private String transactionId;
+    private String type;
     @Size(min = 6, max = 6, message = "Must be 6 characters")
-    String sourceAccount;
-    String destinationAccount;
-    Double amount;
-    Double balance;
-    String transactionDate;
+    private String sourceAccount;
+    private String destinationAccount;
+    private Double amount;
+    private String transactionDate;
+    private String refNo;
 
-    public Transaction(String transactionDate, String type, String sourceAccount, String destinationAccount, Double amount, Double balance) {
+    public Transaction(String transactionDate, String type, String sourceAccount, String destinationAccount, Double amount, Double balance, String refNo) {
         this.transactionDate = transactionDate;
         this.type = type;
         this.sourceAccount = sourceAccount;
         this.destinationAccount = destinationAccount;
         this.amount = amount;
-        this.balance = balance;
+        this.refNo = refNo;
     }
 
     public Transaction() {
+    }
+
+    public String getRefNo() {
+        return refNo;
+    }
+
+    public void setRefNo(String refNo) {
+        this.refNo = refNo;
     }
 
     public String getTransactionId() {
@@ -67,14 +75,6 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public Double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Double balance) {
-        this.balance = balance;
-    }
-
     public String getSourceAccount() {
         return sourceAccount;
     }
@@ -89,5 +89,18 @@ public class Transaction {
 
     public void setDestinationAccount(String destinationAccount) {
         this.destinationAccount = destinationAccount;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "transactionId='" + transactionId + '\'' +
+                ", type='" + type + '\'' +
+                ", sourceAccount='" + sourceAccount + '\'' +
+                ", destinationAccount='" + destinationAccount + '\'' +
+                ", amount=" + amount +
+                ", transactionDate='" + transactionDate + '\'' +
+                ", refNo='" + refNo + '\'' +
+                '}';
     }
 }

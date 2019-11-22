@@ -5,8 +5,17 @@ public class TransactionParam {
     private String srcAccount;
     private String dstAccount;
     private Double trxAmount;
+    private String refNo;
 
     public TransactionParam() {
+    }
+
+    public String getRefNo() {
+        return refNo;
+    }
+
+    public void setRefNo(String refNo) {
+        this.refNo = refNo;
     }
 
     public String getType() {

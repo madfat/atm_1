@@ -9,13 +9,15 @@ import java.util.List;
 public interface TransactionService {
 
     /**
-     * process for transfer
+     * Transfer process, included transaction history creation
      *
      * @param srcAccount
      * @param dstAccount
      * @param transactionAmount
+     * @return
+     * @throws ValidationException
      */
-    void transferProcess(String srcAccount, String dstAccount, Double transactionAmount) throws ValidationException;
+    Transaction transferProcess(String srcAccount, String dstAccount, Double transactionAmount, String refNo) throws ValidationException;
 
     /**
      * process for withdrawal
@@ -23,7 +25,7 @@ public interface TransactionService {
      * @param srcAccountNo
      * @param transactionAmount
      */
-    void withdrawProcess(String srcAccountNo, Double transactionAmount);
+    Transaction withdrawProcess(String srcAccountNo, Double transactionAmount);
 
     /**
      * Retrieve all the transactions record for specific account no
@@ -31,4 +33,13 @@ public interface TransactionService {
      * @return List of lines of transactions
      */
     List<Transaction> getTransactionList(String accountNumber);
+
+    /**
+     * Generate reference no
+     *
+     * @return
+     */
+    String getRefNo();
+
+    List<Transaction> getByDateRange(String startDate, String endDate);
 }

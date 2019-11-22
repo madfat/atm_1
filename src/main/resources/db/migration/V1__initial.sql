@@ -29,6 +29,7 @@ CREATE TABLE transaction
   source_account character varying(6),
   transaction_date character varying(255),
   type character varying(255),
+  ref_no character varying(6),
   CONSTRAINT transaction_pkey PRIMARY KEY (transaction_id)
 );
 

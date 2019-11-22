@@ -3,6 +3,7 @@ package com.atm.utils;
 import com.atm.model.Account;
 
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatter;
 
 public class Constant {
     public static Account loginAccount = new Account();
@@ -13,13 +14,7 @@ public class Constant {
     public static final String TRANSACTION_FILE_PATH = "./data/transaction_data.csv";
     public static final String[] TRANSACTION_HEADER = new String[] {"transaction_date", "type", "source_acct", "destination_acct", "amount", "balance"};
     public static DateTimeFormatter dft = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-    public static void resetLoginAccount() {
-        loginAccount.setBalance(0.0);
-        loginAccount.setAccountNo(null);
-        loginAccount.setName(null);
-        loginAccount.setPin(null);
-    }
+    public static DateTimeFormatter dft_notime = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
 
     public final class TRX_TYPE {
         public static final String TF = "Transfer";

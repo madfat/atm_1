@@ -17,4 +17,9 @@ public class AccountServiceImpl implements AccountService{
     public Account login(String accountNo, String pin) {
         return accountRepository.findByAccountNoAndPin(accountNo,pin);
     }
+
+    @Override
+    public Account getAccountDetail(String accountNo) {
+        return accountRepository.findByAccountNo(accountNo);
+    }
 }

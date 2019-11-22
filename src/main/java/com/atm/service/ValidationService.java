@@ -1,8 +1,6 @@
 package com.atm.service;
 
-import com.atm.exception.AtmValidationException;
-import com.atm.model.Account;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+import com.atm.model.ErrorItem;
 
 import javax.xml.bind.ValidationException;
 import java.util.List;
@@ -15,7 +13,7 @@ public interface ValidationService {
      * @param pin
      * @return List of error if errors occur
      */
-    void login(String account, String pin) throws ValidationException;
+    List<ErrorItem> login(String account, String pin);
     void transferValidation(String srcAccountNo, String dstAccountNo, Double trxAmount) throws ValidationException;
-    void withdrawalValidation(String srcAccountNo, Double trxAmount);
+    String withdrawalValidation(String srcAccountNo, Double trxAmount);
 }

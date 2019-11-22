@@ -14,6 +14,6 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<Menu> getMenuScreen(String screenOwner) {
-        return menuRepository.findByScreenOwner(screenOwner);
+        return menuRepository.findByScreenOwnerOrderBySequence(screenOwner);
     }
 }
