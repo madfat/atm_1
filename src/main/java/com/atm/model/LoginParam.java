@@ -7,6 +7,11 @@ public class LoginParam {
     public LoginParam() {
     }
 
+    public LoginParam(String accountNo, String pin) {
+        this.accountNo = accountNo;
+        this.pin = pin;
+    }
+
     public String getAccountNo() {
         return accountNo;
     }

@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html lang="en">
 <head>
@@ -10,26 +11,36 @@
 <body>
 <div class="container">
     <h1>Fund Transfer</h1>
-    <form id="transfer" action="transfer" method="post">
-        <div class="form-group row">
-            <label for="reference" class="col-sm-3 col-form-label">Reference</label>
-            <div class="col-sm-9">
-                <input type="text" class="form-control" id="reference" name="reference" value="${refNo}"/>
-            </div>
-        </div>
-        <div class="form-group row">
+    <form:form id="transfer" action="transfer" method="post" modelAttribute="param">
+      <spring:bind path="srcAccountNo">
+        <form:errors path="srcAccountNo"></form:errors>
+      </spring:bind>
+      <div class="form-group ${status.error ? 'has-error' : ''}">
+          <label for="reference" class="col-sm-3 col-form-label">Reference</label>
+          <div class="col-sm-9">
+              <input type="text" readonly class="form-control-plaintext" id="reference" name="reference" value="${tfParam.reference}"/>
+          </div>
+      </div>
+
+      <spring:bind path="dstAccountNo">
+        <div class="form-group ${status.error ? 'has-error' : ''}">
             <label for="dstAccountNo" class="col-sm-3 col-form-label">Destination Account</label>
             <div class="col-sm-9">
-                <input type="number" maxLength=6 class="form-control" id="dstAccountNo" autofocus name="dstAccountNo" />
+                <form:input type="number" path="dstAccountNo" class="form-control" id="dstAccountNo" name="dstAccountNo"></form:input>
+                <form:errors path="dstAccountNo"></form:errors>
             </div>
         </div>
-        <div class="form-group row">
+      </spring:bind>
+      <spring:bind path="trxAmount">
+        <div class="form-group ${status.error ? 'has-error' : ''}">
             <label for="trxAmount" class="col-sm-3 col-form-label">Transfer Amount</label>
             <div class="col-sm-9">
-                <input type="number" class="form-control" mandatory id="trxAmount" name="trxAmount" />
+                <form:input type="number" path="trxAmount" class="form-control" id="trxAmount" name="trxAmount"></form:input>
+                <form:errors path="trxAmount"></form:errors>
             </div>
         </div>
-    </form>
+      </spring:bind>
+    </form:form>
     <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#confirmationModal">Transfer</button>
     <button class="btn btn-secondary" onclick="location.href='/main'">Cancel</button>
 </div>

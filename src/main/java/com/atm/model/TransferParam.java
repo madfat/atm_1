@@ -2,6 +2,7 @@ package com.atm.model;
 
 public class TransferParam {
     private String reference;
+    private String srcAccountNo;
     private String dstAccountNo;
     private Double trxAmount;
 
@@ -32,10 +33,19 @@ public class TransferParam {
         this.trxAmount = trxAmount;
     }
 
+    public String getSrcAccountNo() {
+        return srcAccountNo;
+    }
+
+    public void setSrcAccountNo(String srcAccountNo) {
+        this.srcAccountNo = srcAccountNo;
+    }
+
     @Override
     public String toString() {
         return "TransferParam{" +
                 "reference='" + reference + '\'' +
+                ", srcAccountNo='" + srcAccountNo + '\'' +
                 ", dstAccountNo='" + dstAccountNo + '\'' +
                 ", trxAmount=" + trxAmount +
                 '}';

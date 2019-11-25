@@ -14,6 +14,6 @@ public interface ValidationService {
      * @return List of error if errors occur
      */
     List<ErrorItem> login(String account, String pin);
-    void transferValidation(String srcAccountNo, String dstAccountNo, Double trxAmount) throws ValidationException;
+    List<ErrorItem> transferValidation(String srcAccountNo, String dstAccountNo, Double trxAmount);
     String withdrawalValidation(String srcAccountNo, Double trxAmount);
 }

@@ -3,6 +3,7 @@ package com.atm.service;
 import com.atm.model.Account;
 import com.atm.model.ErrorItem;
 import com.atm.repository.AccountRepository;
+import com.atm.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -12,6 +13,8 @@ import javax.xml.bind.ValidationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.atm.utils.Constant.loginAccount;
 
 @Service
 public class ValidationServiceImpl implements ValidationService {
@@ -41,13 +44,34 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public void transferValidation(String srcAccountNo, String dstAccountNo, Double trxAmount) throws ValidationException {
+    public List<ErrorItem> transferValidation(String srcAccountNo, String dstAccountNo, Double trxAmount) {
+        List<ErrorItem> errorItems = new ArrayList<>();
+        if (loginAccount != null){
+            if (loginAccount.getAccountNo().equals(dstAccountNo)){
+                errorItems.add(new ErrorItem("dstAccountNo","dstAccount.same.srcAccount"));
+            }
+        }
+
         if (validateAccountAndBalance(srcAccountNo, trxAmount)){
-            throw new ValidationException("Invalid account or balance is insufficient");
+            errorItems.add(new ErrorItem("srcAccountNo","srcAccount.amount.insufficient"));
         }
-        if (!isAccountExist(dstAccountNo)) {
-            throw new ValidationException("Invalid account");
+        if (accountNotExist(dstAccountNo)) {
+            errorItems.add(new ErrorItem("dstAccountNo","account.invalid"));
         }
+
+        if (trxAmount > Constant.maxAmountTransfer)
+            errorItems.add(new ErrorItem("trxAmount", "transfer.max.amount"));
+
+        if (trxAmount < Constant.minAmountTransfer)
+            errorItems.add(new ErrorItem("trxAmount", "transfer.min.amount"));
+
+        return errorItems;
+    }
+
+    private boolean dstAmountNotExist(String dstAccountNo) {
+        if (accountRepository.findByAccountNo(dstAccountNo) != null)
+            return false;
+        return true;
     }
 
     @Override
@@ -59,6 +83,7 @@ public class ValidationServiceImpl implements ValidationService {
 
     private Boolean validateAccountAndBalance(String acctNo, Double trxAmount){
         Account acct = accountRepository.findByAccountNo(acctNo);
+        System.out.println("madfat:"+acctNo);
         if (!StringUtils.isEmpty(acct)) {
             Double balance = acct.getBalance() - trxAmount;
             // balance could not be less then or equal 0
@@ -71,9 +96,9 @@ public class ValidationServiceImpl implements ValidationService {
         return true;
     }
 
-    private Boolean isAccountExist(String acctNo){
+    private Boolean accountNotExist(String acctNo){
         Account acct = accountRepository.findByAccountNo(acctNo);
-        return !StringUtils.isEmpty(acct) ? true:true;
+        return StringUtils.isEmpty(acct) ? true:false;
     }
 
 }

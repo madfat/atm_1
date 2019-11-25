@@ -4,6 +4,7 @@ import com.atm.model.*;
 import com.atm.repository.MenuRepository;
 import com.atm.service.*;
 import com.atm.utils.Constant;
+import com.atm.validator.TransferValidator;
 import com.atm.validator.UserValidator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class AtmController {
     private ValidationService validationService;
     @Autowired
     private UserValidator userValidator;
+    @Autowired
+    private TransferValidator transferValidator;
 
     @GetMapping("/")
     public String loadLogin(@ModelAttribute("loginParameter") LoginParam loginParameter, BindingResult bindingResult){
@@ -103,13 +106,19 @@ public class AtmController {
     }
 
     @GetMapping({"/transfer"})
-    public String transfer(ModelMap model) {
-        model.addAttribute("refNo", transactionService.getRefNo());
+    public String transfer(@ModelAttribute("param") TransferParam param, ModelMap model, BindingResult bindingResult) {
+        TransferParam tp = new TransferParam();
+        tp.setReference(transactionService.getRefNo());
+        model.addAttribute("tfParam", tp);
         return "transfer";
     }
 
     @PostMapping({"/transfer"})
-    public String tranferProcess(TransferParam param, ModelMap model) throws ValidationException {
+    public String transferProcess(@ModelAttribute("param") TransferParam param, ModelMap model,BindingResult bindingResult) throws ValidationException {
+        transferValidator.validate(param, bindingResult);
+        if (bindingResult.hasErrors())
+            return "transfer";
+
         Transaction trx = transactionService.transferProcess(loginAccount.getAccountNo(),param.getDstAccountNo(), param.getTrxAmount(), param.getReference());
         model.addAttribute("transaction_summary", trx);
         model.addAttribute("trxType", Constant.TRX_TYPE.TF);
