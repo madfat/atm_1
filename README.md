@@ -8,6 +8,7 @@ This repository was created in order to implement the requirement on https://git
 - Case 3 is still on development branch [stage3](https://github.com/madfat/atm_1/tree/stage3)
   - database: postgresql
   - db name: atm
+  - initial account data (account no/pin): 112233/121212 and 112244/111111
 ## How to build and run ATM Simulation using command line
 - Open command line (git bash)
 - Clone the repository: ```git clone https://github.com/madfat/atm_1.git atm_simulation```
