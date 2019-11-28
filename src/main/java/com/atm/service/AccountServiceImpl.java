@@ -22,4 +22,9 @@ public class AccountServiceImpl implements AccountService{
     public Account getAccountDetail(String accountNo) {
         return accountRepository.findByAccountNo(accountNo);
     }
+
+    @Override
+    public Iterable<Account> getAllAccount() {
+        return accountRepository.findAll();
+    }
 }

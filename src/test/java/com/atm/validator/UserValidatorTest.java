@@ -5,8 +5,12 @@ import com.atm.model.LoginParam;
 import com.atm.service.AccountService;
 import com.atm.service.ValidationService;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.Errors;
 
 import java.util.ArrayList;
@@ -14,6 +18,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 public class UserValidatorTest {
     @Mock
     private ValidationService validationService;

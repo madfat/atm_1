@@ -83,7 +83,6 @@ public class ValidationServiceImpl implements ValidationService {
 
     private Boolean validateAccountAndBalance(String acctNo, Double trxAmount){
         Account acct = accountRepository.findByAccountNo(acctNo);
-        System.out.println("madfat:"+acctNo);
         if (!StringUtils.isEmpty(acct)) {
             Double balance = acct.getBalance() - trxAmount;
             // balance could not be less then or equal 0

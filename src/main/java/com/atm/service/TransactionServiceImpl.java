@@ -32,7 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public Transaction transferProcess(String srcAccount, String dstAccount, Double transactionAmount, String refNo) throws ValidationException {
+    public Transaction transferProcess(String srcAccount, String dstAccount, Double transactionAmount, String refNo){
         // source
         Account source = accountRepository.findByAccountNo(srcAccount);
         source.setBalance(source.getBalance() - transactionAmount);

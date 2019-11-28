@@ -17,7 +17,7 @@ public interface TransactionService {
      * @return
      * @throws ValidationException
      */
-    Transaction transferProcess(String srcAccount, String dstAccount, Double transactionAmount, String refNo) throws ValidationException;
+    Transaction transferProcess(String srcAccount, String dstAccount, Double transactionAmount, String refNo);
 
     /**
      * process for withdrawal
