@@ -5,17 +5,26 @@ import com.atm.model.Transaction;
 import com.atm.repository.AccountRepository;
 import com.atm.repository.TransactionRepository;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@RunWith(SpringRunner.class)
+@ActiveProfiles("test")
 public class TransactionServiceTest {
+    @Mock
+    private ValidationService validationService;
+
     @Mock
     private AccountRepository accountRepository;
 
@@ -55,5 +64,21 @@ public class TransactionServiceTest {
         transactionService.withdrawProcess(srcAcctNo, withdrawAmount);
 
         Assert.assertEquals(3000 - withdrawAmount, srcAccount.getBalance(),0);
+    }
+
+    @Test
+    public void testGetTransactionWithinRangeDate_returnSuccess() {
+        List<Transaction> transactions = new ArrayList<>();
+        Transaction trx1 = new Transaction("2019-12-02 10:18:29", "Withdraw", "112233", null, Double.valueOf(10), null);
+        Transaction trx2 = new Transaction("2019-12-01 10:18:29", "Withdraw", "112233", null, Double.valueOf(20), null);
+        Transaction trx3 = new Transaction("2019-11-30 10:18:29", "Withdraw", "112233", null, Double.valueOf(30), null);
+        transactions.add(trx1);
+        transactions.add(trx2);
+        transactions.add(trx3);
+
+        when(transactionRepository.findByTransactionDateBetween(anyString(), anyString())).thenReturn(transactions);
+
+        List<Transaction> trxList = transactionService.getByDateRange("2019-11-30 00:00:00", "2019-12-02 10:18:29");
+        Assert.assertEquals(3,trxList.size());
     }
 }

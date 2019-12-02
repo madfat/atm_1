@@ -4,17 +4,20 @@ import com.atm.model.Account;
 import com.atm.model.ErrorItem;
 import com.atm.repository.AccountRepository;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static com.atm.utils.Constant.loginAccount;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@RunWith(SpringRunner.class)
+@ActiveProfiles("test")
 public class ValidationServiceTest {
     @Mock
     private AccountRepository accountRepository;
