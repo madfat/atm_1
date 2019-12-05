@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.xml.bind.ValidationException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,7 +131,28 @@ public class AtmController {
 
     @GetMapping({"/history"})
     public String history(ModelMap model) {
+        getPageMenu(model, "history_menu");
+        return "history";
+    }
+
+    @GetMapping({"/top10history"})
+    public String top10History(ModelMap model) {
         model.addAttribute("transaction_list",transactionService.getTransactionList(loginAccount.getAccountNo()));
+        model.addAttribute("acct", loginAccount.getAccountNo());
+        model.addAttribute("acctName", loginAccount.getName());
+        model.addAttribute("balance", accountService.getAccountDetail(loginAccount.getAccountNo()).getBalance());
+        return "history_list";
+    }
+
+    @PostMapping({"/history"})
+    public String getHistory(TrxSearchParam param, ModelMap model){
+        System.out.println("thoni "+param.getStartDate());
+        String[] startdate = param.getStartDate().split("/");
+        String[] endate = param.getEndDate().split("/");
+        LocalDateTime start = LocalDateTime.of(Integer.valueOf(startdate[2]),Integer.valueOf(startdate[0]),Integer.valueOf(startdate[1]),00,00,00);
+        LocalDateTime end = LocalDateTime.of(Integer.valueOf(endate[2]),Integer.valueOf(endate[0]),Integer.valueOf(endate[1]),00,00,00).plusDays(1);
+
+        model.addAttribute("transaction_list",transactionService.getByDateRange(start, end));
         model.addAttribute("acct", loginAccount.getAccountNo());
         model.addAttribute("acctName", loginAccount.getName());
         model.addAttribute("balance", accountService.getAccountDetail(loginAccount.getAccountNo()).getBalance());

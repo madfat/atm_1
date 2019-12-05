@@ -4,6 +4,7 @@ import com.atm.model.Account;
 import com.atm.model.Transaction;
 
 import javax.xml.bind.ValidationException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TransactionService {
@@ -41,5 +42,5 @@ public interface TransactionService {
      */
     String getRefNo();
 
-    List<Transaction> getByDateRange(String startDate, String endDate);
+    List<Transaction> getByDateRange(LocalDateTime startDate, LocalDateTime endDate);
 }

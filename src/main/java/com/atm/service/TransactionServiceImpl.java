@@ -67,7 +67,7 @@ public class TransactionServiceImpl implements TransactionService {
         trx.setType(type);
         trx.setAmount(trxAmount);
         trx.setSourceAccount(sourceAccount.getAccountNo());
-        trx.setTransactionDate(dft.format(LocalDateTime.now()));
+        trx.setTransactionDate(LocalDateTime.now());
         if (Constant.TRX_TYPE.TF.equals(type)) {
             trx.setRefNo(refNo);
             trx.setDestinationAccount(destinationAccount.getAccountNo());
@@ -99,7 +99,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getByDateRange(String startDate, String endDate) {
-        return transactionRepository.findByTransactionDateBetween(startDate, endDate);
+    public List<Transaction> getByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionRepository.findByTransactionDateBetweenOrderByTransactionDateDesc(startDate, endDate);
     }
 }

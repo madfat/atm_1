@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,16 +70,16 @@ public class TransactionServiceTest {
     @Test
     public void testGetTransactionWithinRangeDate_returnSuccess() {
         List<Transaction> transactions = new ArrayList<>();
-        Transaction trx1 = new Transaction("2019-12-02 10:18:29", "Withdraw", "112233", null, Double.valueOf(10), null);
-        Transaction trx2 = new Transaction("2019-12-01 10:18:29", "Withdraw", "112233", null, Double.valueOf(20), null);
-        Transaction trx3 = new Transaction("2019-11-30 10:18:29", "Withdraw", "112233", null, Double.valueOf(30), null);
+        Transaction trx1 = new Transaction(LocalDateTime.of(2019,12,02,10,18,29), "Withdraw", "112233", null, Double.valueOf(10), null);
+        Transaction trx2 = new Transaction(LocalDateTime.of(2019,12,01,10,18,29), "Withdraw", "112233", null, Double.valueOf(20), null);
+        Transaction trx3 = new Transaction(LocalDateTime.of(2019,11,30,10,18,29), "Withdraw", "112233", null, Double.valueOf(30), null);
         transactions.add(trx1);
         transactions.add(trx2);
         transactions.add(trx3);
 
-        when(transactionRepository.findByTransactionDateBetween(anyString(), anyString())).thenReturn(transactions);
+        when(transactionRepository.findByTransactionDateBetweenOrderByTransactionDateDesc(any(LocalDateTime.class), any(LocalDateTime.class))).thenReturn(transactions);
 
-        List<Transaction> trxList = transactionService.getByDateRange("2019-11-30 00:00:00", "2019-12-02 10:18:29");
+        List<Transaction> trxList = transactionService.getByDateRange(LocalDateTime.of(2019,11,30,00,00,00), LocalDateTime.of(2019,12,02, 10,18,29));
         Assert.assertEquals(3,trxList.size());
     }
 }

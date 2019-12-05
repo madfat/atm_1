@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transaction")
@@ -20,10 +21,10 @@ public class Transaction {
     private String sourceAccount;
     private String destinationAccount;
     private Double amount;
-    private String transactionDate;
+    private LocalDateTime transactionDate;
     private String refNo;
 
-    public Transaction(String transactionDate, String type, String sourceAccount, String destinationAccount, Double amount, String refNo) {
+    public Transaction(LocalDateTime transactionDate, String type, String sourceAccount, String destinationAccount, Double amount, String refNo) {
         this.transactionDate = transactionDate;
         this.type = type;
         this.sourceAccount = sourceAccount;
@@ -51,11 +52,11 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public String getTransactionDate() {
+    public LocalDateTime getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(String transactionDate) {
+    public void setTransactionDate(LocalDateTime transactionDate) {
         this.transactionDate = transactionDate;
     }
 
