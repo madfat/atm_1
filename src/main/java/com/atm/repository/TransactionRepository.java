@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TransactionRepository extends CrudRepository<Transaction, String> {
     List<Transaction> findByTransactionDateBetween(String startDate, String endDate);
+    List<Transaction> findTop10BySourceAccountOrDestinationAccountOrderByTransactionDateDesc(String srcAccount, String dstAccount);
 }

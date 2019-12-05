@@ -129,15 +129,7 @@ public class AtmController {
 
     @GetMapping({"/history"})
     public String history(ModelMap model) {
-        getPageMenu(model, "history_menu");
-        return "history";
-    }
-
-    @PostMapping({"/history"})
-    public String getHistory(TrxSearchParam param, ModelMap model){
-        String startDate = Constant.dft.format(Constant.dft_notime.parse(param.getStartDate()+" 00:00:00"));
-        String endDate = LocalDate.parse(Constant.dft.format(Constant.dft_notime.parse(param.getEndDate()+" 00:00:00")),Constant.dft).plusDays(1).toString();
-        model.addAttribute("transaction_list",transactionService.getByDateRange(startDate, endDate));
+        model.addAttribute("transaction_list",transactionService.getTransactionList(loginAccount.getAccountNo()));
         model.addAttribute("acct", loginAccount.getAccountNo());
         model.addAttribute("acctName", loginAccount.getName());
         model.addAttribute("balance", accountService.getAccountDetail(loginAccount.getAccountNo()).getBalance());

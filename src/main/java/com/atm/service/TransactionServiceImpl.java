@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.bind.ValidationException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -82,7 +84,7 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public List<Transaction> getTransactionList(String accountNumber) {
-        return null; //transactionRepository.findTop10ByAccountNo(accountNumber);
+        return transactionRepository.findTop10BySourceAccountOrDestinationAccountOrderByTransactionDateDesc(loginAccount.getAccountNo(), loginAccount.getAccountNo());
     }
 
     @Override
