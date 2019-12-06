@@ -2,7 +2,10 @@ package com.atm.controller;
 
 import com.atm.model.*;
 import com.atm.repository.MenuRepository;
-import com.atm.service.*;
+import com.atm.service.AccountService;
+import com.atm.service.MenuService;
+import com.atm.service.TransactionService;
+import com.atm.service.ValidationService;
 import com.atm.utils.Constant;
 import com.atm.validator.TransferValidator;
 import com.atm.validator.UserValidator;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.xml.bind.ValidationException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -146,13 +148,10 @@ public class AtmController {
 
     @PostMapping({"/history"})
     public String getHistory(TrxSearchParam param, ModelMap model){
-        System.out.println("thoni "+param.getStartDate());
-        String[] startdate = param.getStartDate().split("/");
-        String[] endate = param.getEndDate().split("/");
-        LocalDateTime start = LocalDateTime.of(Integer.valueOf(startdate[2]),Integer.valueOf(startdate[0]),Integer.valueOf(startdate[1]),00,00,00);
-        LocalDateTime end = LocalDateTime.of(Integer.valueOf(endate[2]),Integer.valueOf(endate[0]),Integer.valueOf(endate[1]),00,00,00).plusDays(1);
+        LocalDateTime startdate =  LocalDateTime.parse(param.getStartDate(), DateTimeFormatter.ofPattern("yyyy/dd/MM"));
+        LocalDateTime endate = LocalDateTime.parse(param.getEndDate(),DateTimeFormatter.ofPattern("yyyy/dd/MM")).plusDays(1);
 
-        model.addAttribute("transaction_list",transactionService.getByDateRange(start, end));
+        model.addAttribute("transaction_list",transactionService.getByDateRange(startdate, endate));
         model.addAttribute("acct", loginAccount.getAccountNo());
         model.addAttribute("acctName", loginAccount.getName());
         model.addAttribute("balance", accountService.getAccountDetail(loginAccount.getAccountNo()).getBalance());
