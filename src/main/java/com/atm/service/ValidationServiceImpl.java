@@ -5,21 +5,21 @@ import com.atm.model.ErrorItem;
 import com.atm.repository.AccountRepository;
 import com.atm.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.ValidationUtils;
 
-import javax.xml.bind.ValidationException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import static com.atm.utils.Constant.loginAccount;
 
 @Service
 public class ValidationServiceImpl implements ValidationService {
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private AccountService accountService;
 
     /**
      * {@inheritDoc}
@@ -45,9 +45,11 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Override
     public List<ErrorItem> transferValidation(String srcAccountNo, String dstAccountNo, Double trxAmount) {
+        Account loginUser = authenticateUser();
+
         List<ErrorItem> errorItems = new ArrayList<>();
-        if (loginAccount != null){
-            if (loginAccount.getAccountNo().equals(dstAccountNo)){
+        if (loginUser != null){
+            if (loginUser.getAccountNo().equals(dstAccountNo)){
                 errorItems.add(new ErrorItem("dstAccountNo","dstAccount.same.srcAccount"));
             }
         }
@@ -66,6 +68,17 @@ public class ValidationServiceImpl implements ValidationService {
             errorItems.add(new ErrorItem("trxAmount", "transfer.min.amount"));
 
         return errorItems;
+    }
+
+    private Account authenticateUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account userDetail = null;
+        if (principal instanceof UserDetails) {
+            String loginUser = ((UserDetails) principal).getUsername();
+            return userDetail = accountService.getAccountDetail(loginUser);
+        } else {
+            return (Account) principal;
+        }
     }
 
     private boolean dstAmountNotExist(String dstAccountNo) {

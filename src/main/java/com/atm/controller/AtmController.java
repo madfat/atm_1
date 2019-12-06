@@ -8,9 +8,9 @@ import com.atm.service.TransactionService;
 import com.atm.service.ValidationService;
 import com.atm.utils.Constant;
 import com.atm.validator.TransferValidator;
-import com.atm.validator.UserValidator;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -25,8 +25,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.atm.utils.Constant.loginAccount;
-
 @Controller
 public class AtmController {
     @Autowired
@@ -40,34 +38,36 @@ public class AtmController {
     @Autowired
     private ValidationService validationService;
     @Autowired
-    private UserValidator userValidator;
-    @Autowired
     private TransferValidator transferValidator;
 
-    @GetMapping("/")
-    public String loadLogin(@ModelAttribute("loginParameter") LoginParam loginParameter, BindingResult bindingResult){
+    @GetMapping("/login")
+    public String loadLogin(@ModelAttribute("loginParameter") LoginParam loginParam, ModelMap model, String error, String logout){
+        if (error != null)
+            model.addAttribute("error", "Your username and password is invalid.");
+
+        if (logout != null)
+            model.addAttribute("message", "You have been logged out successfully.");
+
         return "login";
     }
 
-    @PostMapping({"/","/login"})
+    @GetMapping({""})
     public String login(@ModelAttribute("loginParameter") LoginParam loginParameter, ModelMap model, BindingResult bindingResult) {
-        userValidator.validate(loginParameter, bindingResult);
-        if (bindingResult.hasErrors())
-            return "login";
-
         return toMainMenu(model);
     }
 
     @PostMapping({"/withdraw"})
     public String otherWithdraw(OtherAmountParam param, ModelMap model) {
-        String error = validationService.withdrawalValidation(loginAccount.getAccountNo(), param.getAmount());
+        Account loginUser = authenticateUser();
+
+        String error = validationService.withdrawalValidation(loginUser.getAccountNo(), param.getAmount());
         if (error != null) {
             model.addAttribute("error", error);
             return "withdraw_other";
         }
 
         // process deduct
-        Transaction trx = transactionService.withdrawProcess(loginAccount.getAccountNo(),param.getAmount());
+        Transaction trx = transactionService.withdrawProcess(loginUser.getAccountNo(), param.getAmount());
         model.addAttribute("transaction_summary", trx);
         model.addAttribute("trxType", Constant.TRX_TYPE.WD);
         // print receipt
@@ -86,15 +86,17 @@ public class AtmController {
 
     @GetMapping({"/withdraw"})
     public String withdraw(ModelMap model, @RequestParam(required = false, name = "amount") String amount) {
+        Account loginUser = authenticateUser();
+
         getPageMenu(model, "withdraw_menu");
         if (amount != null && amount.matches("-?\\d+(\\.\\d+)?")) {
-            String error = validationService.withdrawalValidation(loginAccount.getAccountNo(),Double.valueOf(amount));
+            String error = validationService.withdrawalValidation(loginUser.getAccountNo(),Double.valueOf(amount));
             if (error != null) {
                 model.addAttribute("error", error);
                 return "withdraw?amount=";
             }
             // process deduct
-            Transaction trx = transactionService.withdrawProcess(loginAccount.getAccountNo(),Double.valueOf(amount));
+            Transaction trx = transactionService.withdrawProcess(loginUser.getAccountNo(),Double.valueOf(amount));
             trx.setRefNo("-");
             trx.setDestinationAccount("-");
             model.addAttribute("transaction_summary", trx);
@@ -119,11 +121,13 @@ public class AtmController {
 
     @PostMapping({"/transfer"})
     public String transferProcess(@ModelAttribute("param") TransferParam param, ModelMap model,BindingResult bindingResult) throws ValidationException {
+        Account loginUser = authenticateUser();
+
         transferValidator.validate(param, bindingResult);
         if (bindingResult.hasErrors())
             return "transfer";
 
-        Transaction trx = transactionService.transferProcess(loginAccount.getAccountNo(),param.getDstAccountNo(), param.getTrxAmount(), param.getReference());
+        Transaction trx = transactionService.transferProcess(loginUser.getAccountNo(),param.getDstAccountNo(), param.getTrxAmount(), param.getReference());
         model.addAttribute("transaction_summary", trx);
         model.addAttribute("trxType", Constant.TRX_TYPE.TF);
         model.addAttribute("refNo", param.getReference());
@@ -139,22 +143,36 @@ public class AtmController {
 
     @GetMapping({"/top10history"})
     public String top10History(ModelMap model) {
-        model.addAttribute("transaction_list",transactionService.getTransactionList(loginAccount.getAccountNo()));
-        model.addAttribute("acct", loginAccount.getAccountNo());
-        model.addAttribute("acctName", loginAccount.getName());
-        model.addAttribute("balance", accountService.getAccountDetail(loginAccount.getAccountNo()).getBalance());
+        Account loginUser = authenticateUser();
+
+        model.addAttribute("transaction_list",transactionService.getTransactionList(loginUser.getAccountNo()));
+        model.addAttribute("acct", loginUser.getAccountNo());
+        model.addAttribute("acctName", loginUser.getName());
+        model.addAttribute("balance", accountService.getAccountDetail(loginUser.getAccountNo()).getBalance());
         return "history_list";
+    }
+
+    private Account authenticateUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account userDetail = null;
+        if (principal instanceof UserDetails) {
+            String loginUser = ((UserDetails) principal).getUsername();
+            userDetail = accountService.getAccountDetail(loginUser);
+        }
+        return userDetail;
     }
 
     @PostMapping({"/history"})
     public String getHistory(TrxSearchParam param, ModelMap model){
+        Account userDetail = authenticateUser();
+
         LocalDateTime startdate =  LocalDateTime.parse(param.getStartDate(), DateTimeFormatter.ofPattern("yyyy/dd/MM"));
-        LocalDateTime endate = LocalDateTime.parse(param.getEndDate(),DateTimeFormatter.ofPattern("yyyy/dd/MM")).plusDays(1);
+        LocalDateTime endate = LocalDateTime.parse(param.getEndDate(),DateTimeFormatter.ofPattern("yyyy/dd/MM")).plusDays(1); 
 
         model.addAttribute("transaction_list",transactionService.getByDateRange(startdate, endate));
-        model.addAttribute("acct", loginAccount.getAccountNo());
-        model.addAttribute("acctName", loginAccount.getName());
-        model.addAttribute("balance", accountService.getAccountDetail(loginAccount.getAccountNo()).getBalance());
+        model.addAttribute("acct", userDetail.getAccountNo());
+        model.addAttribute("acctName", userDetail.getName());
+        model.addAttribute("balance", accountService.getAccountDetail(userDetail.getAccountNo()).getBalance());
         return "history_list";
     }
 
@@ -168,12 +186,6 @@ public class AtmController {
         menu.setScreenOwner("no_menu");
         noMenu.add(menu);
         return noMenu;
-    }
-
-    @GetMapping({"/logout"})
-    public String logout(@ModelAttribute("loginParameter") LoginParam loginParameter, BindingResult bindingResult){
-        BeanUtils.copyProperties(new Account(), loginAccount);
-        return "login";
     }
 
     @GetMapping({"/main"})

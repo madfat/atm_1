@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "account")
@@ -15,17 +16,27 @@ public class Account {
     private String name;
     @Size(min = 6, max = 6, message = "Must be 6 characters")
     private String accountNo;
-    @Size(min = 6, max = 6, message = "Must be 6 characters")
+    //@Size(min = 6, max = 6, message = "Must be 6 characters")
     private String pin;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
     private double balance;
     private Boolean status;
 
-    public Account(String name, @Size(min = 6, max = 6, message = "Must be 6 characters") String accountNo, @Size(min = 6, max = 6, message = "Must be 6 characters") String pin, double balance, Boolean status) {
+    public Account(String name, @Size(min = 6, max = 6, message = "Must be 6 characters") String accountNo, String pin, double balance, Boolean status) {
         this.name = name;
         this.accountNo = accountNo;
         this.pin = pin;
         this.balance = balance;
         this.status = status;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public Account() {

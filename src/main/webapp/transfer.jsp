@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <title>Fund Transfer</title>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <%@ include file="/header.jsp" %>
 </head>
 <body>
 <div class="container">

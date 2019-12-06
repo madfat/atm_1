@@ -6,4 +6,6 @@ public interface AccountService {
     Account login(String accountNo, String pin);
     Account getAccountDetail(String accountNo);
     Iterable<Account> getAllAccount();
+    void save(Account account);
+    Account findByAccountNo(String accountNo);
 }

@@ -13,8 +13,6 @@ import org.springframework.validation.Validator;
 
 import java.util.List;
 
-import static com.atm.utils.Constant.loginAccount;
-
 @Service
 public class UserValidator implements Validator {
     @Autowired
@@ -41,9 +39,7 @@ public class UserValidator implements Validator {
         }
 
         Account acct = accountService.login(login.getAccountNo(), login.getPin());
-        if (acct != null) {
-            BeanUtils.copyProperties(acct, loginAccount);
-        } else {
+        if (acct == null) {
             errors.rejectValue("pin", "invalid.credential");
         }
     }
