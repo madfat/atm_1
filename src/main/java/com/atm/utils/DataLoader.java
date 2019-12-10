@@ -2,6 +2,7 @@ package com.atm.utils;
 
 import com.atm.model.Account;
 import com.atm.model.Role;
+import com.atm.repository.RoleRepository;
 import com.atm.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -16,36 +17,25 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Account act1 = new Account();
-        act1.setAccountNo("112233");
-        act1.setName("Ricard");
-        act1.setBalance(6000);
-        act1.setPin("111111");
-        act1.setStatus(true);
+        double initialBalance = 10000;
+        String defaultPin = "121212";
+        Set<Role> roles = populateRole();
 
-        Set<Role> roles = new HashSet<>();
-        Role r = new Role();
-        r.setName(Constant.ROLES.ADM);
-        roles.add(r);
+        for (int i = 0; i<200 ; i++){
+            String idx = String.format("%03d", i);
+            Account act1 = new Account(String.format("John %s", idx), String.format("112%s", idx), defaultPin, initialBalance, true);
+            act1.setRoles(roles);
+            accountService.save(act1);
+        }
 
-        act1.setRoles(roles);
-        accountService.save(act1);
+    }
 
-        Account act2 = new Account();
-        act2.setAccountNo("112244");
-        act2.setName("John");
-        act2.setBalance(7000);
-        act2.setPin("121212");
-        act2.setStatus(true);
-
-        Set<Role> roles2 = new HashSet<>();
-        Role r2 = new Role();
-        r2.setName(Constant.ROLES.ADM);
-        roles2.add(r2);
-
-        act2.setRoles(roles2);
-        accountService.save(act2);
+    private Set<Role> populateRole() {
+        return new HashSet<>(roleRepository.findAll());
     }
 }
