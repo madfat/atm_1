@@ -10,7 +10,7 @@
             <column name="account_no" type="CHAR(6)">
                 <constraints nullable="false" />
             </column>
-            <column name="balance" type="DOUBLE" />
+            <column name="balance" type="NUMERIC" />
             <column name="name" type="VARCHAR(255)" />
             <column name="pin" type="VARCHAR(255)" />
             <column name="status" type="BOOLEAN" />
@@ -41,7 +41,7 @@
             <column name="transaction_id" type="VARCHAR(225)">
                 <constraints primaryKey="true" nullable="false" />
             </column>
-            <column name="amount" type="DOUBLE" />
+            <column name="amount" type="NUMERIC" />
             <column name="destination_account" type="VARCHAR(6)" />
             <column name="ref_no" type="VARCHAR(255)" />
             <column name="source_account" type="VARCHAR(6)" />
@@ -66,5 +66,17 @@
     <changeSet author="akhmad.fathoni@mitrais.com" id="insert-data-role-00">
         <loadData file="/db/changelog/data/db.atm-role-0.0.csv"
                   tableName="role" />
+    </changeSet>
+    <changeSet author="akhmad.fathoni@mitrais.com" id="insert-data-account-00">
+        <loadData file="/db/changelog/data/db.atm-account-0.0.csv"
+                  tableName="account" />
+    </changeSet>
+    <changeSet author="akhmad.fathoni@mitrais.com" id="insert-data-account-roles-00">
+        <loadData file="/db/changelog/data/db.atm-account-roles-0.0.csv"
+                  tableName="account_roles" />
+    </changeSet>
+    <changeSet author="akhmad.fathoni@mitrais.com" id="insert-data-transaction-00">
+        <loadData file="/db/changelog/data/db.atm-transaction-0.0.csv"
+                  tableName="transaction" />
     </changeSet>
 </databaseChangeLog>
