@@ -77,9 +77,9 @@ public class TransactionServiceTest {
         transactions.add(trx2);
         transactions.add(trx3);
 
-        when(transactionRepository.findByTransactionDateBetweenOrderByTransactionDateDesc(any(LocalDateTime.class), any(LocalDateTime.class))).thenReturn(transactions);
+        when(transactionRepository.findBySourceAccountOrDestinationAccountAndTransactionDateBetweenOrderByTransactionDateDesc(anyString(), anyString(), any(LocalDateTime.class), any(LocalDateTime.class))).thenReturn(transactions);
 
-        List<Transaction> trxList = transactionService.getByDateRange(LocalDateTime.of(2019,11,30,00,00,00), LocalDateTime.of(2019,12,02, 10,18,29));
+        List<Transaction> trxList = transactionService.getByDateRange("112233",LocalDateTime.of(2019,11,30,00,00,00), LocalDateTime.of(2019,12,02, 10,18,29));
         Assert.assertEquals(3,trxList.size());
     }
 }
