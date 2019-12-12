@@ -1,0 +1,40 @@
+version: '3.4'
+services:
+  postgres:
+    image: postgres:11-alpine
+    volumes:
+      - pgdata_volume:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=100"
+      - "-c"
+      - "max_prepared_transactions=500"
+      - "-c"
+      - "shared_buffers=4GB"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "maintenance_work_mem=2GB"
+      - "-c"
+      - "wal_buffers=16MB"
+
+  atm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DB_HOST: '172.17.0.1'
+        DB_USERNAME: postgres
+        DB_PASSWORD: password
+    ports:
+      - "2233:2233"
+
+
+volumes:
+  pgdata_volume:
