@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page import="java.time.format.DateTimeFormatter" %>
 
 <html lang="en">
 <head>
@@ -31,7 +31,7 @@
         <button type="button" class="btn btn-primary" onclick="location.href='/main'">Back</button>
     </div>
     <table class="table">
-      <thead>
+      <thead style="text-align:center">
         <th scope="col">#</th>
         <th scope="col">Type</th>
         <th scope="col">Source Account</th>
@@ -42,12 +42,12 @@
       </thead>
       <tbody>
           <c:forEach items="${transaction_list}" var="transaction">
-              <tr>
+              <tr style="text-align:center">
                 <th>#</th>
                 <th>${transaction.type}</th>
                 <th>${transaction.sourceAccount}</th>
                 <th>${transaction.destinationAccount}</th>
-                <th>
+                <th style="text-align:right">
                     <c:choose>
                       <c:when test="${transaction.sourceAccount==acct && transaction.type=='Transfer' || transaction.type=='Withdraw'}">
                         - ${transaction.amount}
@@ -58,7 +58,9 @@
                     </c:choose>
                 </th>
                 <th>${transaction.refNo}</th>
-                <th>${transaction.transactionDate}</th>
+                <th>
+                  ${transaction.transactionDate.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))}
+                </th>
               </tr>
           </c:forEach>
       </tbody>
