@@ -9,6 +9,9 @@ import com.atm.service.ValidationService;
 import com.atm.utils.Constant;
 import com.atm.validator.TransferValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -176,6 +179,25 @@ public class AtmController {
         model.addAttribute("acctName", userDetail.getName());
         model.addAttribute("balance", accountService.getAccountDetail(userDetail.getAccountNo()).getBalance());
         return "history_list";
+    }
+
+    @GetMapping({"/history-all"})
+    public String getHistoryPaged(@ModelAttribute("param") TrxSearchParam param, ModelMap model, @PageableDefault(value = 10) Pageable pageable){
+        Account userDetail = authenticateUser();
+
+        Page<Transaction> transactionPage = transactionService.getAllTransactionList(userDetail.getAccountNo(), pageable);
+
+        model.addAttribute("transaction_list",transactionPage.getContent());
+        model.addAttribute("total_elements", transactionPage.getTotalElements());
+        model.addAttribute("number",transactionPage.getNumber());
+        model.addAttribute("number_of_elements",transactionPage.getNumberOfElements());
+        model.addAttribute("size", transactionPage.getSize());
+        model.addAttribute("total_pages", transactionPage.getTotalPages());
+
+        model.addAttribute("acct", userDetail.getAccountNo());
+        model.addAttribute("acctName", userDetail.getName());
+        model.addAttribute("balance", accountService.getAccountDetail(userDetail.getAccountNo()).getBalance());
+        return "history_list_2";
     }
 
     private List<Menu> noMenu(){

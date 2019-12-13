@@ -6,6 +6,8 @@ import com.atm.repository.AccountRepository;
 import com.atm.repository.TransactionRepository;
 import com.atm.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -109,5 +111,11 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Transaction> getByDateRange(String accountNo, LocalDateTime startDate, LocalDateTime endDate) {
         return transactionRepository.findBySourceAccountOrDestinationAccountAndTransactionDateBetweenOrderByTransactionDateDesc(accountNo, accountNo, startDate, endDate);
+    }
+
+    @Override
+    public Page<Transaction> getAllTransactionList(String accountNo, Pageable pageable) {
+        Page<Transaction> obj = transactionRepository.findBySourceAccountOrDestinationAccountOrderByTransactionDateDesc(accountNo, accountNo, pageable);
+        return obj;
     }
 }

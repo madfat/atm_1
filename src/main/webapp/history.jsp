@@ -24,6 +24,11 @@
         </li>
         <li>
         <div>
+          <a href="history-all"><h3>All Transactions</h3></a>
+        </div>
+        </li>
+        <li>
+        <div>
         <h3>Within Date Range</h3>
             <form:form action="history" id="history" method="post" modelAttribute="param">
               <spring:bind path="startDate">
