@@ -30,8 +30,8 @@ public class TransactionRepositoryTest {
 
         transactionRepository.saveAll(transactions);
 
-        List<Transaction> trxs = transactionRepository.findBySourceAccountOrDestinationAccountAndTransactionDateBetweenOrderByTransactionDateDesc("112233","112233",LocalDateTime.of(2019,12,01, 10,18,29), LocalDateTime.of(2019,12,02,10,18,29));
-        Assert.assertEquals(3, trxs.size());
+        List<Transaction> trxs = transactionRepository.findBySourceAccountAndTransactionDateBetweenOrDestinationAccountAndTransactionDateBetweenOrderByTransactionDateDesc("112233",LocalDateTime.of(2019,12,01, 10,18,29), LocalDateTime.of(2019,12,02,10,18,29),"112233",LocalDateTime.of(2019,12,01, 10,18,29), LocalDateTime.of(2019,12,02,10,18,29));
+        Assert.assertEquals(2, trxs.size());
     }
 
     @Test

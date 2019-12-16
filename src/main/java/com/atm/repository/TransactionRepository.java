@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TransactionRepository extends PagingAndSortingRepository<Transaction, String> {
-    List<Transaction> findBySourceAccountOrDestinationAccountAndTransactionDateBetweenOrderByTransactionDateDesc(String srcAccount, String dstAccount, LocalDateTime startDate, LocalDateTime endDate);
+    List<Transaction> findBySourceAccountAndTransactionDateBetweenOrDestinationAccountAndTransactionDateBetweenOrderByTransactionDateDesc(String srcAccount, LocalDateTime startDate1, LocalDateTime endDate1, String dstAccount, LocalDateTime startDate2, LocalDateTime endDate2);
     List<Transaction> findTop10BySourceAccountOrDestinationAccountOrderByTransactionDateDesc(String srcAccount, String dstAccount);
     Page<Transaction> findBySourceAccountOrDestinationAccountOrderByTransactionDateDesc(String srcAccount, String dstAccount, Pageable pageable);
 }

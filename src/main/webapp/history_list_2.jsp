@@ -67,14 +67,16 @@
     </table>
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-end">
-        <c:if test="${number ne 0}">
-          <li class="page-item"><a class="page-link" href="history-all?page=${number - 1}">Previous</a></li>
-        </c:if>
-        <c:forEach var = "i" begin = "0" end = "${total_pages - 1}">
-           <li class="page-item"><a class="page-link" href="history-all?page=${i}"><c:out value = "${i + 1}"/></a></li>
-        </c:forEach>
-        <c:if test="${number ne total_pages - 1}">
-            <li class="page-item"><a class="page-link" href="history-all?page=${number + 1}">Next</a></li>
+        <c:if test="${number_of_elements > 0}">
+          <c:if test="${number ne 0}">
+            <li class="page-item"><a class="page-link" href="history-all?page=${number - 1}">Previous</a></li>
+          </c:if>
+          <c:forEach var = "i" begin = "0" end = "${total_pages - 1}">
+             <li class="page-item"><a class="page-link" href="history-all?page=${i}"><c:out value = "${i + 1}"/></a></li>
+          </c:forEach>
+          <c:if test="${number ne total_pages - 1}">
+              <li class="page-item"><a class="page-link" href="history-all?page=${number + 1}">Next</a></li>
+          </c:if>
         </c:if>
       </ul>
     </nav>

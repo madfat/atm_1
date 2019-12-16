@@ -110,7 +110,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> getByDateRange(String accountNo, LocalDateTime startDate, LocalDateTime endDate) {
-        return transactionRepository.findBySourceAccountOrDestinationAccountAndTransactionDateBetweenOrderByTransactionDateDesc(accountNo, accountNo, startDate, endDate);
+        return transactionRepository.findBySourceAccountAndTransactionDateBetweenOrDestinationAccountAndTransactionDateBetweenOrderByTransactionDateDesc(accountNo, startDate, endDate, accountNo, startDate, endDate);
     }
 
     @Override
