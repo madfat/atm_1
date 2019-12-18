@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transaction History</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/resources/css/gijgo.min.css}" rel="stylesheet"/>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Transaction History</h1>
+        <ul>
+        <li>
+        <div>
+          <a href="top10history"><h3>Top 10 Transactions</h3></a>
+        </div>
+        </li>
+        <li>
+        <div>
+          <a href="history-all"><h3>All Transactions</h3></a>
+        </div>
+        </li>
+        <li>
+        <div>
+        <h3>Within Date Range</h3>
+            <form th:action="@{/history}" id="history" method="post" th:object="${param}">
+              <div>
+                Start Date: <input id="startDate" th:field="*{startDate}" name="startDate" width="276" />
+              </div>
+              <div>
+                End Date: <input id="endDate" th:field="*{endDate}" name="endDate" width="276" />
+              </div>
+            </form>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary" id="searchbtn">Search</button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='/main'">Back</button>
+        </div>
+        </li>
+        </ul>
+    </div>
+
+</div>
+<script>
+    var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+    $('#startDate').datepicker({
+        uiLibrary: 'bootstrap4',
+        iconsLibrary: 'fontawesome',
+        maxDate: function () {
+            return $('#endDate').val();
+        }
+    });
+    $('#endDate').datepicker({
+        uiLibrary: 'bootstrap4',
+        iconsLibrary: 'fontawesome',
+        minDate: function () {
+            return $('#startDate').val();
+        }
+    });
+</script>
+<script th:src="@{/resources/js/bootstrap.min.js}" />
+<script th:src="@{/resources/js/jquery-3.4.1.min.js}" />
+<script th:src="@{/resources/js/gijgo.min.js}" />
+<script>
+$(document).ready(function() {
+  $('#searchbtn').click(function(){
+      $('#history').submit();
+  });
+})
+</script>
+</body>
+
+</html>

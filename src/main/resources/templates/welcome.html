@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <h1>Main Menu</h1>
+    <h3 th:each="menu : ${menus}">
+        <a th:href="${menu.route}" th:text="${menu.description}"></a>
+    </h3>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<link th:href="@{/resources/js/bootstrap.min.js}" />
+</body>
+</html>

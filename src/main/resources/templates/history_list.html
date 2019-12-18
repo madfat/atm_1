@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transaction History</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/resources/css/common.css}" rel="stylesheet">
+    <link th:href="@{https://unpkg.com/gijgo@1.9.13/js/gijgo.min.jss}" type="text/javascript"/>
+    <link th:href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>History List</h1>
+    <div class="form-group row">
+        <label for="acct" class="col-sm-3 col-form-label">Account</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control-plaintext" readonly id="acct" name="acct" th:value="${acct} +' - '+ ${acctName}"/>
+        </div>
+
+        <label for="acct" class="col-sm-3 col-form-label">Balance</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control-plaintext" readonly id="balance" name="balance" th:value="${balance}"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <button type="button" class="btn btn-primary" onclick="location.href='/main'">Back</button>
+    </div>
+    <table class="table">
+      <thead style="text-align:center">
+        <th scope="col">#</th>
+        <th scope="col">Type</th>
+        <th scope="col">Source Account</th>
+        <th scope="col">Destination Account</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Reference No</th>
+        <th scope="col">Date</th>
+      </thead>
+      <tbody>
+           <tr style="text-align:center" th:each="transaction : ${transaction_list}">
+                <th>#</th>
+                <th th:text="${transaction.type}" />
+                <th th:text="${transaction.sourceAccount}" />
+                <th th:text="${transaction.destinationAccount}" />
+                <th style="text-align:right">
+                    <p th:if="${transaction.sourceAccount==acct && transaction.type=='Transfer' || transaction.type=='Withdraw'}" th:text="'-' + ${transaction.amount}"/>
+                    <p th:unless="${transaction.sourceAccount==acct && transaction.type=='Transfer' || transaction.type=='Withdraw'}" th:text="'+' + ${transaction.amount}"/>
+                </th>
+                <th th:text="${transaction.refNo}" />
+                <th th:text="${transaction.transactionDate}" />
+           </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<link th:href="@{/resources/js/bootstrap.min.js}" />
+<link th:href="@{/resources/js/jquery-3.4.1.min.js}" />
+</body>
+
+</html>
