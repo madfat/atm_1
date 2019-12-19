@@ -14,7 +14,7 @@
     <c:forEach items="${menus}" var="menu">
         <div><button type="button" class="btn btn-link" onclick="location.href='${menu.route}'"><h3>${menu.description}</h3></button></div>
     </c:forEach>
-    <div><p>${error}</p></div>
+    <p style="color:red">${error}</p>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>

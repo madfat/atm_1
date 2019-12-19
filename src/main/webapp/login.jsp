@@ -18,23 +18,34 @@
 <div style="margin-top: 80px; margin-bottom: 80px">
     <form:form style="max-width: 380px; margin: 0 auto" id="login" action="${contextPath}/login" method="post" modelAttribute="loginParameter">
       <spring:bind path="username">
-        <div class="form-group ${status.error ? 'has-error' : ''}">
+        <div class="form-group">
           <form:input class="form-control" path="username" type="text" name="username" placeholder="Account No" required=""></form:input>
-          <form:errors path="username"></form:errors>
         </div>
       </spring:bind>
       <spring:bind path="password">
-        <div class="form-group ${status.error ? 'has-error' : ''}">
-        <form:input class="form-control" path="password" style="padding: 10px" type="password" name="password" placeholder="PIN" required=""></form:input>
-          <form:errors path="password"></form:errors>
+        <div class="form-group">
+          <form:input class="form-control" path="password" style="padding: 10px" type="password" name="password" placeholder="PIN" required=""></form:input>
         </div>
       </spring:bind>
       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+      <p id="error" style="text-align:center; color:red"></p>
     </form:form>
+    <button style="max-width: 380px; margin: 0 auto" id="btnLogin" class="btn btn-lg btn-primary btn-block">Login</button>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    let searchParams = new URLSearchParams(window.location.search);
+    if(searchParams.has('error')){
+        $("#error").text("Login authentication failed");
+    };
+
+    $("#btnLogin").click(function() {
+        $("#login").submit();
+    });
+})
+</script>
 </body>
 </html>
