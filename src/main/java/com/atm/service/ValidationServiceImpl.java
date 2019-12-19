@@ -89,6 +89,9 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Override
     public String withdrawalValidation(String srcAccountNo, Double trxAmount) {
+        if (trxAmount > Constant.maxAmountTransfer) {
+            return "Maximum amount to withdraw is $1000";
+        }
         if (validateAccountAndBalance(srcAccountNo, trxAmount))
             return "Invalid account or balance is insufficient";
         return null;
