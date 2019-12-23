@@ -16,7 +16,7 @@ This repository was created in order to implement the requirement on https://git
   - it's also generated some dummy transactions data under 112000, 112001, 112002, 112003 
 ## How to build and run ATM Simulation using command line
 ### docker 
-This will spin up the database, but still needs to create the db name (atm) manually in port 5433
+This will spin up the database, it uses port 5433
 - Open command line (git bash)
 - Clone the repository: ```git clone https://github.com/madfat/atm_1.git atm_simulation```
 - Get inside the project directory: ```cd atm_simulation```
