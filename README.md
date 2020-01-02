@@ -28,7 +28,4 @@ It's assumed the local environment already has all the support development thing
 - Clone the repository: ```git clone https://github.com/madfat/atm_1.git atm_simulation```
 - Get inside the project directory: ```cd atm_simulation```
 - Checkout the tagged code: ```git checkout stage4```
-- Build the application, using profile ```local```: ```mvn package -P local```
-- Run the application: 
-  - go to target folder: ```cd target```
-  - run the application: ```java -jar atm-1.0-SNAPSHOT.jar```
+- Build the run application, using profile ```local```: ```mvn spring-boot:run -Dspring-boot.run.profiles=local```
