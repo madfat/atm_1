@@ -12,8 +12,9 @@ This repository was created in order to implement the requirement on https://git
 - Case 4 is still on development branch [stage4](https://github.com/madfat/atm_1/tree/stage4)
   - database: postgresql
   - db name: atm
-  - it's generated 200 accounts data: 112000 until 1120199 with pin 121212
-  - it's also generated some dummy transactions data under 112000, 112001, 112002, 112003 
+  - created 200 initial accounts and some transaction.
+    - accounts: ```112000``` until ```112119```, all has password ```121212```
+  - provided a branch that contains docker to encapsulate the application and the database, [```branch4_docker```](https://github.com/madfat/atm_1/tree/stage4_docker)
 ## How to build and run ATM Simulation using command line
 ### docker 
 This will spin up the database, it uses port 5433
