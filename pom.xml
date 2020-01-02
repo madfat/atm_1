@@ -93,4 +93,26 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <defaultGoal>goal</defaultGoal>
+                <filters>
+                    <filter>src/main/resources/docker.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>local</id>
+            <build>
+                <filters>
+                    <filter>src/main/resources/dev.properties</filter>
+                </filters>
+            </build>
+        </profile>
+    </profiles>
 </project>
