@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <title>Fund Transfer</title>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <%@ include file="/header.jsp" %>
 </head>
 <body>
 <div class="container">
@@ -36,7 +37,7 @@
             <label for="trxAmount" class="col-sm-3 col-form-label">Transfer Amount</label>
             <div class="col-sm-9">
                 <form:input type="number" path="trxAmount" class="form-control" id="trxAmount" name="trxAmount"></form:input>
-                <form:errors path="trxAmount"></form:errors>
+                <form:errors style="color: red" path="trxAmount"></form:errors>
             </div>
         </div>
       </spring:bind>

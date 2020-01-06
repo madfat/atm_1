@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <title>Receipt</title>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <%@ include file="/header.jsp" %>
 </head>
 <body data-targetaccount=${destinationAccount} data-refno=${refNo}>
 <div class="container">

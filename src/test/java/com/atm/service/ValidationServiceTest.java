@@ -8,12 +8,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static com.atm.utils.Constant.loginAccount;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -22,24 +25,36 @@ public class ValidationServiceTest {
     @Mock
     private AccountRepository accountRepository;
 
+    @Mock
+    private AccountService accountService;
+
     @InjectMocks
     private ValidationServiceImpl validationService;
 
     @Test
     public void testTransferValidation_returnDstAccountError(){
+        mockAuth();
+
         String srcAcctNo = "123123";
         String dstAcctNo = "123123";
         Double transferAmount = Double.valueOf(30);
 
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 300, true);
-
-        setLoginAccount(srcAcctNo, Double.valueOf(300));
         when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
         when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(srcAccount);
+        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(srcAccount);
 
         List<ErrorItem> errors = validationService.transferValidation(srcAcctNo, dstAcctNo, transferAmount);
         Assert.assertEquals(1, errors.size());
         Assert.assertEquals("dstAccount.same.srcAccount",errors.get(0).getErrorDesc());
+    }
+
+    private void mockAuth() {
+        Authentication authentication = Mockito.mock(Authentication.class);
+        // Mockito.whens() for your authorization object
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
     }
 
     @Test
@@ -51,7 +66,6 @@ public class ValidationServiceTest {
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 300, true);
         Account dstAccount = new Account("Joe", dstAcctNo, "111112", 300, true);
 
-        setLoginAccount(srcAcctNo, Double.valueOf(300));
         when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
         when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(dstAccount);
 
@@ -69,7 +83,6 @@ public class ValidationServiceTest {
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 300, true);
         Account dstAccount = new Account("Joe", dstAcctNo, "111112", 300, true);
 
-        setLoginAccount(srcAcctNo, Double.valueOf(300));
         when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
 
         List<ErrorItem> errors = validationService.transferValidation(srcAcctNo, dstAcctNo, transferAmount);
@@ -86,9 +99,10 @@ public class ValidationServiceTest {
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 3000, true);
         Account dstAccount = new Account("Joe", dstAcctNo, "111112", 3000, true);
 
-        setLoginAccount(srcAcctNo, Double.valueOf(3000));
         when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
         when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(dstAccount);
+        mockAuth();
+        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(srcAccount);
 
         List<ErrorItem> errors = validationService.transferValidation(srcAcctNo, dstAcctNo, transferAmount);
         Assert.assertEquals(1, errors.size());
@@ -104,7 +118,6 @@ public class ValidationServiceTest {
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 3000, true);
         Account dstAccount = new Account("Joe", dstAcctNo, "111112", 3000, true);
 
-        setLoginAccount(srcAcctNo, Double.valueOf(3000));
         when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
         when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(dstAccount);
 
@@ -113,12 +126,4 @@ public class ValidationServiceTest {
         Assert.assertEquals("transfer.min.amount",errors.get(0).getErrorDesc());
     }
 
-    private void setLoginAccount(String srcAccount, Double balance) {
-        loginAccount.setAccountNo(srcAccount);
-        loginAccount.setBalance(balance);
-        loginAccount.setName("Jole");
-        loginAccount.setPin("332211");
-        loginAccount.setStatus(true);
-
-    }
 }

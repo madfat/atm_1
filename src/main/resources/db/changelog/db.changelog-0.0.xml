@@ -1,0 +1,82 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet id="create-account-table-00" author="akhmad.fathoni@mitrais.com">
+        <createTable tableName="account">
+            <column name="account_id" type="VARCHAR(255)">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="account_no" type="CHAR(6)">
+                <constraints nullable="false" />
+            </column>
+            <column name="balance" type="NUMERIC" />
+            <column name="name" type="VARCHAR(255)" />
+            <column name="pin" type="VARCHAR(255)" />
+            <column name="status" type="BOOLEAN" />
+        </createTable>
+    </changeSet>
+    <changeSet id="create-menu-table-00" author="akhmad.fathoni@mitrais.com">
+        <createTable tableName="menu">
+            <column name="menu_id" type="VARCHAR(225)">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="description" type="CHAR(255)" />
+            <column name="route" type="VARCHAR(255)" />
+            <column name="screen_owner" type="VARCHAR(255)" />
+            <column name="sequence" type="INTEGER" />
+            <column name="status" type="BOOLEAN" />
+        </createTable>
+    </changeSet>
+    <changeSet id="create-role-table-00" author="akhmad.fathoni@mitrais.com">
+        <createTable tableName="role">
+            <column name="role_id" type="VARCHAR(225)">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="name" type="CHAR(255)" />
+        </createTable>
+    </changeSet>
+    <changeSet id="create-transaction-table-00" author="akhmad.fathoni@mitrais.com">
+        <createTable tableName="transaction">
+            <column name="transaction_id" type="VARCHAR(225)">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="amount" type="NUMERIC" />
+            <column name="destination_account" type="VARCHAR(6)" />
+            <column name="ref_no" type="VARCHAR(255)" />
+            <column name="source_account" type="VARCHAR(6)" />
+            <column name="transaction_date" type="timestamp without time zone" />
+            <column name="type" type="VARCHAR(255)" />
+        </createTable>
+    </changeSet>
+    <changeSet id="create-account-roles-table-00" author="akhmad.fathoni@mitrais.com">
+        <createTable tableName="account_roles">
+            <column name="accounts_account_id" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="roles_role_id" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="akhmad.fathoni@mitrais.com" id="insert-data-menu-00">
+        <loadData file="/db/changelog/data/db.atm-menu-0.0.csv"
+                  tableName="menu" />
+    </changeSet>
+    <changeSet author="akhmad.fathoni@mitrais.com" id="insert-data-role-00">
+        <loadData file="/db/changelog/data/db.atm-role-0.0.csv"
+                  tableName="role" />
+    </changeSet>
+    <changeSet author="akhmad.fathoni@mitrais.com" id="insert-data-account-00">
+        <loadData file="/db/changelog/data/db.atm-account-0.0.csv"
+                  tableName="account" />
+    </changeSet>
+    <changeSet author="akhmad.fathoni@mitrais.com" id="insert-data-account-roles-00">
+        <loadData file="/db/changelog/data/db.atm-account-roles-0.0.csv"
+                  tableName="account_roles" />
+    </changeSet>
+    <changeSet author="akhmad.fathoni@mitrais.com" id="insert-data-transaction-00">
+        <loadData file="/db/changelog/data/db.atm-transaction-0.0.csv"
+                  tableName="transaction" />
+    </changeSet>
+</databaseChangeLog>

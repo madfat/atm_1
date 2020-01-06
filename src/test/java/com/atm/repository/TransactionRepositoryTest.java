@@ -28,11 +28,9 @@ public class TransactionRepositoryTest {
         transactions.add(trx2);
         transactions.add(trx3);
 
-        for (Transaction transaction : transactions) {
-            transactionRepository.save(transaction);
-        }
+        transactionRepository.saveAll(transactions);
 
-        List<Transaction> trxs = transactionRepository.findByTransactionDateBetweenOrderByTransactionDateDesc(LocalDateTime.of(2019,12,01, 10,18,29), LocalDateTime.of(2019,12,02,10,18,29));
+        List<Transaction> trxs = transactionRepository.findBySourceAccountAndTransactionDateBetweenOrDestinationAccountAndTransactionDateBetweenOrderByTransactionDateDesc("112233",LocalDateTime.of(2019,12,01, 10,18,29), LocalDateTime.of(2019,12,02,10,18,29),"112233",LocalDateTime.of(2019,12,01, 10,18,29), LocalDateTime.of(2019,12,02,10,18,29));
         Assert.assertEquals(2, trxs.size());
     }
 
@@ -51,9 +49,7 @@ public class TransactionRepositoryTest {
         transactions.add(new Transaction(LocalDateTime.of(2019,12,02,10,18,29), "Withdraw", "112244", "112233", Double.valueOf(10), "019182"));
         transactions.add(new Transaction(LocalDateTime.of(2019,12,01,10,18,29), "Withdraw", "112233", null, Double.valueOf(20), null));
         transactions.add(new Transaction(LocalDateTime.of(2019,11,30,10,18,29), "Withdraw", "112244", "112233", Double.valueOf(30), "223394"));
-        for (Transaction transaction : transactions) {
-            transactionRepository.save(transaction);
-        }
+        transactionRepository.saveAll(transactions);
 
         List<Transaction> top10 = transactionRepository.findTop10BySourceAccountOrDestinationAccountOrderByTransactionDateDesc("112233", "112233");
         Assert.assertEquals(10, top10.size());
