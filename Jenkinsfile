@@ -1,6 +1,9 @@
 node{
     stage('SCM Checkout'){
-        git 'https://github.com/madfat/atm_1'
+        git(
+            url: 'https://github.com/madfat/atm_1'
+            branch: 'ci-cd'
+        )
     }
     stage('Compile-Package'){
         // get maven home path
