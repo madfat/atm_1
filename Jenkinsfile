@@ -1,7 +1,7 @@
 node{
     stage('SCM Checkout'){
         git(
-            url: 'https://github.com/madfat/atm_1'
+            url: 'https://github.com/madfat/atm_1',
             branch: 'ci-cd'
         )
     }
