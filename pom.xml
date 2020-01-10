@@ -97,6 +97,9 @@
     <profiles>
         <profile>
             <id>docker</id>
+            <properties>
+                <activatedProperties>docker</activatedProperties>
+            </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -109,11 +112,26 @@
         </profile>
         <profile>
             <id>local</id>
+            <properties>
+                <activatedProperties>local</activatedProperties>
+            </properties>
             <build>
                 <filters>
                     <filter>src/main/resources/dev.properties</filter>
                 </filters>
             </build>
         </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+            </properties>
+            <build>
+                <filters>
+                    <filter>src/main/resources/prod.properties</filter>
+                </filters>
+            </build>
+        </profile>
+
     </profiles>
 </project>
