@@ -1,7 +1,8 @@
 package com.atm.service;
 
-import com.atm.model.Account;
 import com.atm.model.Transaction;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import javax.xml.bind.ValidationException;
 import java.time.LocalDateTime;
@@ -42,5 +43,7 @@ public interface TransactionService {
      */
     String getRefNo();
 
-    List<Transaction> getByDateRange(LocalDateTime startDate, LocalDateTime endDate);
+    List<Transaction> getByDateRange(String accountNo, LocalDateTime startDate, LocalDateTime endDate);
+
+    Page<Transaction> getAllTransactionList(String accountNo, Pageable pageable);
 }

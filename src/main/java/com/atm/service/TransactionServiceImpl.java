@@ -5,21 +5,17 @@ import com.atm.model.Transaction;
 import com.atm.repository.AccountRepository;
 import com.atm.repository.TransactionRepository;
 import com.atm.utils.Constant;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.bind.ValidationException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-
-import static com.atm.utils.Constant.dft;
-import static com.atm.utils.Constant.loginAccount;
-
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -32,6 +28,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private AccountService accountService;
+
     @Override
     @Transactional
     public Transaction transferProcess(String srcAccount, String dstAccount, Double transactionAmount, String refNo){
@@ -39,7 +38,7 @@ public class TransactionServiceImpl implements TransactionService {
         Account source = accountRepository.findByAccountNo(srcAccount);
         source.setBalance(source.getBalance() - transactionAmount);
         accountRepository.save(source);
-        BeanUtils.copyProperties(source,loginAccount);
+
         // destination
         Account destination = accountRepository.findByAccountNo(dstAccount);
         destination.setBalance(destination.getBalance() + transactionAmount);
@@ -57,7 +56,7 @@ public class TransactionServiceImpl implements TransactionService {
         sourceAccount.setBalance(sourceAccount.getBalance() - transactionAmount);
         accountRepository.save(sourceAccount);
         // update login account information
-        BeanUtils.copyProperties(sourceAccount,loginAccount);
+
         // create transaction history
         return transactionRepository.save(constructTransaction(sourceAccount, null, transactionAmount, Constant.TRX_TYPE.WD, null));
     }
@@ -84,7 +83,18 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public List<Transaction> getTransactionList(String accountNumber) {
-        return transactionRepository.findTop10BySourceAccountOrDestinationAccountOrderByTransactionDateDesc(loginAccount.getAccountNo(), loginAccount.getAccountNo());
+        Account loginUser = authenticateUser();
+        return transactionRepository.findTop10BySourceAccountOrDestinationAccountOrderByTransactionDateDesc(loginUser.getAccountNo(), loginUser.getAccountNo());
+    }
+
+    private Account authenticateUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account userDetail = null;
+        if (principal instanceof UserDetails) {
+            String loginUser = ((UserDetails) principal).getUsername();
+            userDetail = accountService.getAccountDetail(loginUser);
+        }
+        return userDetail;
     }
 
     @Override
@@ -99,7 +109,13 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-        return transactionRepository.findByTransactionDateBetweenOrderByTransactionDateDesc(startDate, endDate);
+    public List<Transaction> getByDateRange(String accountNo, LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionRepository.findBySourceAccountAndTransactionDateBetweenOrDestinationAccountAndTransactionDateBetweenOrderByTransactionDateDesc(accountNo, startDate, endDate, accountNo, startDate, endDate);
+    }
+
+    @Override
+    public Page<Transaction> getAllTransactionList(String accountNo, Pageable pageable) {
+        Page<Transaction> obj = transactionRepository.findBySourceAccountOrDestinationAccountOrderByTransactionDateDesc(accountNo, accountNo, pageable);
+        return obj;
     }
 }

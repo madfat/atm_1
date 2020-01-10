@@ -16,24 +16,36 @@
 <body>
 
 <div style="margin-top: 80px; margin-bottom: 80px">
-    <form:form style="max-width: 380px; margin: 0 auto" id="login" action="login" method="post" modelAttribute="loginParameter">
-      <spring:bind path="accountNo">
-        <div class="form-group ${status.error ? 'has-error' : ''}">
-          <form:input class="form-control" path="accountNo" type="text" name="accountNo" placeholder="Account No" required=""></form:input>
-          <form:errors path="accountNo"></form:errors>
+    <form:form style="max-width: 380px; margin: 0 auto" id="login" action="${contextPath}/login" method="post" modelAttribute="loginParameter">
+      <spring:bind path="username">
+        <div class="form-group">
+          <form:input class="form-control" path="username" type="text" name="username" placeholder="Account No" required=""></form:input>
         </div>
       </spring:bind>
-      <spring:bind path="pin">
-        <div class="form-group ${status.error ? 'has-error' : ''}">
-        <form:input class="form-control" path="pin" style="padding: 10px" type="password" name="pin" placeholder="PIN" required=""></form:input>
-          <form:errors path="pin"></form:errors>
+      <spring:bind path="password">
+        <div class="form-group">
+          <form:input class="form-control" path="password" style="padding: 10px" type="password" name="password" placeholder="PIN" required=""></form:input>
         </div>
       </spring:bind>
-        <button class="btn btn-lg btn-primary btn-block">Login</button>
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+      <p id="error" style="text-align:center; color:red"></p>
     </form:form>
+    <button style="max-width: 380px; margin: 0 auto" id="btnLogin" class="btn btn-lg btn-primary btn-block">Login</button>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    let searchParams = new URLSearchParams(window.location.search);
+    if(searchParams.has('error')){
+        $("#error").text("Login authentication failed");
+    };
+
+    $("#btnLogin").click(function() {
+        $("#login").submit();
+    });
+})
+</script>
 </body>
 </html>

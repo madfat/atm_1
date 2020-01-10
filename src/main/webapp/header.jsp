@@ -6,14 +6,18 @@
     <meta charset="utf-8">
     <title>Welcome</title>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <%@ include file="/header.jsp" %>
 </head>
 <body>
 <div class="container">
-    <h1>Main Menu</h1>
-    <c:forEach items="${menus}" var="menu">
-        <a href="${menu.route}"><h3>${menu.description}</h3></a>
-    </c:forEach>
+  <div class="float-right">
+    <c:if test="${pageContext.request.userPrincipal.name != null}">
+        <form id="logoutForm" method="POST" action="${contextPath}/logout">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+
+        <p>Welcome ${pageContext.request.userPrincipal.name} | <a href="#" onclick="document.forms['logoutForm'].submit()">Logout</a></p>
+    </c:if>
+  </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
