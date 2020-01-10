@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <html lang="en">
 <head>
@@ -43,7 +44,7 @@
       </spring:bind>
     </form:form>
     <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#confirmationModal">Transfer</button>
-    <button class="btn btn-secondary" onclick="location.href='/main'">Cancel</button>
+    <button class="btn btn-secondary" onclick="location.href='main'">Cancel</button>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
