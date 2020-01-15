@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,12 +36,12 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public Transaction transferProcess(String srcAccount, String dstAccount, Double transactionAmount, String refNo){
         // source
-        Account source = accountRepository.findByAccountNo(srcAccount);
+        Account source = accountRepository.findByAccountNo(srcAccount).orElseThrow(() -> new UsernameNotFoundException("Account No NOT Found " + srcAccount));
         source.setBalance(source.getBalance() - transactionAmount);
         accountRepository.save(source);
 
         // destination
-        Account destination = accountRepository.findByAccountNo(dstAccount);
+        Account destination = accountRepository.findByAccountNo(dstAccount).orElseThrow(() -> new UsernameNotFoundException("Account No NOT Found " + dstAccount));
         destination.setBalance(destination.getBalance() + transactionAmount);
         accountRepository.save(destination);
 
@@ -51,7 +52,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public Transaction withdrawProcess(String srcAccountNo, Double transactionAmount) {
         // validate source account
-        Account sourceAccount = accountRepository.findByAccountNo(srcAccountNo);
+        Account sourceAccount = accountRepository.findByAccountNo(srcAccountNo).orElseThrow(() -> new UsernameNotFoundException("Account No NOT Found " + srcAccountNo));
         // update source account balance
         sourceAccount.setBalance(sourceAccount.getBalance() - transactionAmount);
         accountRepository.save(sourceAccount);

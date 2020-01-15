@@ -40,8 +40,8 @@ public class ValidationServiceTest {
         Double transferAmount = Double.valueOf(30);
 
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 300, true);
-        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
-        when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(srcAccount);
+        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(java.util.Optional.ofNullable(srcAccount));
+        when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(java.util.Optional.ofNullable(srcAccount));
         when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(srcAccount);
 
         List<ErrorItem> errors = validationService.transferValidation(srcAcctNo, dstAcctNo, transferAmount);
@@ -66,8 +66,8 @@ public class ValidationServiceTest {
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 300, true);
         Account dstAccount = new Account("Joe", dstAcctNo, "111112", 300, true);
 
-        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
-        when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(dstAccount);
+        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(java.util.Optional.ofNullable(srcAccount));
+        when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(java.util.Optional.ofNullable(dstAccount));
 
         List<ErrorItem> errors = validationService.transferValidation(srcAcctNo, dstAcctNo, transferAmount);
         Assert.assertEquals(1, errors.size());
@@ -76,6 +76,8 @@ public class ValidationServiceTest {
 
     @Test
     public void testTransferValidation_returnDstAccountNotExistError(){
+        mockAuth();
+
         String srcAcctNo = "123123";
         String dstAcctNo = "112233";
         Double transferAmount = Double.valueOf(30);
@@ -83,7 +85,7 @@ public class ValidationServiceTest {
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 300, true);
         Account dstAccount = new Account("Joe", dstAcctNo, "111112", 300, true);
 
-        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
+        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(java.util.Optional.ofNullable(srcAccount));
 
         List<ErrorItem> errors = validationService.transferValidation(srcAcctNo, dstAcctNo, transferAmount);
         Assert.assertEquals(1, errors.size());
@@ -99,8 +101,8 @@ public class ValidationServiceTest {
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 3000, true);
         Account dstAccount = new Account("Joe", dstAcctNo, "111112", 3000, true);
 
-        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
-        when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(dstAccount);
+        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(java.util.Optional.ofNullable(srcAccount));
+        when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(java.util.Optional.ofNullable(dstAccount));
         mockAuth();
         when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(srcAccount);
 
@@ -118,8 +120,8 @@ public class ValidationServiceTest {
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 3000, true);
         Account dstAccount = new Account("Joe", dstAcctNo, "111112", 3000, true);
 
-        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
-        when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(dstAccount);
+        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(java.util.Optional.ofNullable(srcAccount));
+        when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(java.util.Optional.ofNullable(dstAccount));
 
         List<ErrorItem> errors = validationService.transferValidation(srcAcctNo, dstAcctNo, transferAmount);
         Assert.assertEquals(1, errors.size());

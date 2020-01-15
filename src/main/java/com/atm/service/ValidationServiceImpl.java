@@ -98,21 +98,14 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     private Boolean validateAccountAndBalance(String acctNo, Double trxAmount){
-        Account acct = accountRepository.findByAccountNo(acctNo);
-        if (!StringUtils.isEmpty(acct)) {
-            Double balance = acct.getBalance() - trxAmount;
-            // balance could not be less then or equal 0
-            if (balance <= 0){
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return true;
+        Account acct = accountRepository.findByAccountNo(acctNo).orElseThrow(RuntimeException::new);
+        Double balance = acct.getBalance() - trxAmount;
+        // balance could not be less then or equal 0
+        return balance <= 0 ? true : false;
     }
 
     private Boolean accountNotExist(String acctNo){
-        Account acct = accountRepository.findByAccountNo(acctNo);
+        Account acct = accountRepository.findByAccountNo(acctNo).orElse(null);
         return StringUtils.isEmpty(acct) ? true:false;
     }
 

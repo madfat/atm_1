@@ -42,7 +42,7 @@ public class AccountServiceTest {
     @Test
     public void testGetAccountDetail_returnSuccess() {
         Account acct = new Account("Robert", "121314", "131313", 2000, true);
-        when(accountRepository.findByAccountNo("121314")).thenReturn(acct);
+        when(accountRepository.findByAccountNo("121314")).thenReturn(java.util.Optional.ofNullable(acct));
         Account expectedResult = accountService.getAccountDetail("121314");
         Assert.assertNotNull(expectedResult);
     }

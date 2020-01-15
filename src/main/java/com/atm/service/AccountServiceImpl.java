@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public Account getAccountDetail(String accountNo) {
-        return accountRepository.findByAccountNo(accountNo);
+        return accountRepository.findByAccountNo(accountNo).orElseThrow(() -> new UsernameNotFoundException("Account No NOT Found " + accountNo));
     }
 
     @Override
@@ -56,14 +56,13 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public Account findByAccountNo(String accountNo) {
-        return accountRepository.findByAccountNo(accountNo);
+        return accountRepository.findByAccountNo(accountNo).orElseThrow(() -> new UsernameNotFoundException("Account No NOT Found " + accountNo));
     }
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Account account = accountRepository.findByAccountNo(s);
-        if (account == null) throw new UsernameNotFoundException(s);
+        Account account = accountRepository.findByAccountNo(s).orElseThrow(()-> new UsernameNotFoundException(s));
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role : account.getRoles()) {

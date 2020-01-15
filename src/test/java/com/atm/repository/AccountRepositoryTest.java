@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @DataJpaTest
@@ -17,15 +18,18 @@ public class AccountRepositoryTest {
     @Test
     public void testFindByAccountNo_returnSuccess() {
         accountRepository.save(new Account("Albert", "123123","111111", 2000, true));
-        Account act = accountRepository.findByAccountNo("123123");
+        Account act = accountRepository.findByAccountNo("123123").orElseThrow(RuntimeException::new);
         Assert.assertEquals(Double.valueOf(2000), act.getBalance(),0);
     }
 
     @Test
-    public void testFindByAccountNo_returnNull() {
+    public void testFindByAccountNo_returnException() {
         accountRepository.save(new Account("Albert", "123123","111111", 2000, true));
-        Account act = accountRepository.findByAccountNo("444444");
-        Assert.assertNull(act);
+        try {
+            Account act = accountRepository.findByAccountNo("444444").orElseThrow(() -> new UsernameNotFoundException("Account No not found"));
+        } catch (Exception e) {
+            Assert.assertTrue(e instanceof UsernameNotFoundException);
+        }
     }
 
     @Test
