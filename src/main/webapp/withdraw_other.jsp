@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <html lang="en">
 <head>
@@ -22,7 +23,7 @@
         </div>
     </form>
     <button id="withdraw_other_confirm" name="withdraw_other_confirm"class="btn btn-primary">Withdraw</button>
-    <button id="withdraw_other_cancel" name="withdraw_other_cancel" class="btn btn-secondary" onclick="location.href='/main'">Cancel</button>
+    <button id="withdraw_other_cancel" name="withdraw_other_cancel" class="btn btn-secondary" onclick="location.href='main'">Cancel</button>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>

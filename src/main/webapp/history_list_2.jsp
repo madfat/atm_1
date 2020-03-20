@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <html lang="en">
 <head>
@@ -28,7 +29,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <button type="button" class="btn btn-primary" onclick="location.href='/main'">Back</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='main'">Back</button>
     </div>
     <table class="table">
       <thead style="text-align:center">

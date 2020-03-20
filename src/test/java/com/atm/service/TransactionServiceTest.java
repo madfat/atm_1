@@ -45,8 +45,8 @@ public class TransactionServiceTest {
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 3000, true);
         Account dstAccount = new Account("Joe", dstAcctNo, "111112", 3000, true);
 
-        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
-        when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(dstAccount);
+        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(java.util.Optional.ofNullable(srcAccount));
+        when(accountRepository.findByAccountNo(dstAcctNo)).thenReturn(java.util.Optional.ofNullable(dstAccount));
         when(transactionRepository.save(any(Transaction.class))).thenReturn(new Transaction());
         transactionService.transferProcess(srcAcctNo,dstAcctNo, tfAmount, ref);
 
@@ -60,7 +60,7 @@ public class TransactionServiceTest {
         Account srcAccount = new Account("Andy", srcAcctNo, "111111", 3000, true);
         Double withdrawAmount = Double.valueOf(40);
 
-        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(srcAccount);
+        when(accountRepository.findByAccountNo(srcAcctNo)).thenReturn(java.util.Optional.ofNullable(srcAccount));
         when(transactionRepository.save(any(Transaction.class))).thenReturn(new Transaction());
         transactionService.withdrawProcess(srcAcctNo, withdrawAmount);
 

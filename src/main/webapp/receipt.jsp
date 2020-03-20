@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <html lang="en">
 <head>
@@ -42,7 +43,7 @@
                 <input type="text" readonly class="form-control-plaintext" id="refNo" value="${transaction_summary.refNo}">
             </div>
         </div>
-        <button type="button" class="btn btn-primary" onclick="location.href='/main'">Back</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='main'">Back</button>
     </form>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
